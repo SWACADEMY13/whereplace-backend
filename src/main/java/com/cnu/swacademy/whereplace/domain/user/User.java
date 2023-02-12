@@ -1,26 +1,18 @@
 package com.cnu.swacademy.whereplace.domain.user;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "user")
 public class User {
-    private final String userId;    // NOT NULL
+    @Id
+    private String userId;    // NOT NULL
     private String password;        // NOT NULL
     private String name;            // NOT NULL
     private String phone;           // NULLABLE
-    private final String email;     // NOT NULL
-
-    public User(String userId, String password, String name, String email) {
-        this.userId = userId;
-        this.password = password;
-        this.name = name;
-        this.email = email;
-    }
-
-    public User(String userId, String password, String name, String phone, String email) {
-        this.userId = userId;
-        this.password = password;
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-    }
+    private String email;     // NOT NULL
 
     public String getUserId() {
         return userId;
@@ -52,5 +44,9 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

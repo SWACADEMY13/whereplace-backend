@@ -1,13 +1,15 @@
 package com.cnu.swacademy.whereplace.domain.hashtag;
 
-public class HashTag {
-    private final int tagId;        // NOT NULL
-    private final String tagName;   // NOT NULL
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-    public HashTag(int tagId, String tagName) {
-        this.tagId = tagId;
-        this.tagName = tagName;
-    }
+@Entity
+@Table(name = "hashtag")
+public class HashTag {
+    @Id
+    private int tagId;        // NOT NULL
+    private String tagName;   // NOT NULL
 
     public int getTagId() {
         return tagId;

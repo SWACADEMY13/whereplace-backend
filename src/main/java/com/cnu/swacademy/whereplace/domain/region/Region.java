@@ -1,13 +1,15 @@
 package com.cnu.swacademy.whereplace.domain.region;
 
-public class Region {
-    private final int regionId;         // NOT NULL
-    private final String regionName;    // NOT NULL
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-    public Region(int regionId, String regionName) {
-        this.regionId = regionId;
-        this.regionName = regionName;
-    }
+@Entity
+@Table(name = "region")
+public class Region {
+    @Id
+    private int regionId;         // NOT NULL
+    private String regionName;    // NOT NULL
 
     public int getRegionId() {
         return regionId;

@@ -1,13 +1,15 @@
 package com.cnu.swacademy.whereplace.domain.post_image;
 
-public class PostImage {
-    private final int postId;   // NOT NULL
-    private final int imageId;  // NOT NULL
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-    public PostImage(int postId, int imageId) {
-        this.postId = postId;
-        this.imageId = imageId;
-    }
+@Entity
+@Table(name = "post_image")
+public class PostImage {
+    @Id
+    private int postId;   // NOT NULL
+    private int imageId;  // NOT NULL
 
     public int getPostId() {
         return postId;

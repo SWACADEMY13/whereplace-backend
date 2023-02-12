@@ -1,13 +1,15 @@
 package com.cnu.swacademy.whereplace.domain.image;
 
-public class Image {
-    private final int imageId;  // NOT NULL
-    private final String image; // NOT NULL
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-    public Image(int imageId, String image) {
-        this.imageId = imageId;
-        this.image = image;
-    }
+@Entity
+@Table(name = "image")
+public class Image {
+    @Id
+    private int imageId;  // NOT NULL
+    private String image; // NOT NULL
 
     public int getImageId() {
         return imageId;

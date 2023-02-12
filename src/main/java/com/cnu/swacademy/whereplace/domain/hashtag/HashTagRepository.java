@@ -1,7 +1,9 @@
 package com.cnu.swacademy.whereplace.domain.hashtag;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class HashTagRepository {
+public interface HashTagRepository extends JpaRepository<HashTag, Integer> {
+
 }
