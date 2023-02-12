@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost/where_place
+    username: root
+    password: swacademy13
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    database: mysql
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        query.in_clause_parameter_padding: true

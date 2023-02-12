@@ -1,13 +1,15 @@
 package com.cnu.swacademy.whereplace.domain.post_tag;
 
-public class PostTag {
-    private final int postId;   // NOT NULL
-    private final int tagId;    // NOT NULL
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-    public PostTag(int postId, int tagId) {
-        this.postId = postId;
-        this.tagId = tagId;
-    }
+@Entity
+@Table(name = "post_tag")
+public class PostTag {
+    @Id
+    private int postId;   // NOT NULL
+    private int tagId;    // NOT NULL
 
     public int getPostId() {
         return postId;

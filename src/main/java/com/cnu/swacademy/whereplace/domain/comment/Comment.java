@@ -1,27 +1,21 @@
 package com.cnu.swacademy.whereplace.domain.comment;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "comment")
 public class Comment {
-    private final int commentId;            // NOT NULL
-    private final int postId;               // NOT NULL
-    private final String userId;            // NOT NULL
+    @Id
+    private int commentId;            // NOT NULL
+    private int postId;               // NOT NULL
+    private String userId;            // NOT NULL
     private String content;                 // NOT NULL
-    private final LocalDateTime postedDate; // NOT NULL
+    private LocalDateTime postedDate; // NOT NULL
     private int like;
-
-    public Comment(int commentId, int postId, String userId, String content, LocalDateTime postedDate, int like) {
-        this.commentId = commentId;
-        this.postId = postId;
-        this.userId = userId;
-        this.content = content;
-        this.postedDate = postedDate;
-        this.like = like;
-    }
-
-    public void like() {
-        this.like++;
-    }
 
     public int getCommentId() {
         return commentId;
@@ -49,5 +43,9 @@ public class Comment {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
     }
 }
