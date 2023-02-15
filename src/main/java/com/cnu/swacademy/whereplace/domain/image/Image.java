@@ -1,21 +1,16 @@
 package com.cnu.swacademy.whereplace.domain.image;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "image")
 public class Image {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int imageId;  // NOT NULL
+
+    @Column(name = "image", nullable = false, length = 500)
     private String image; // NOT NULL
-
-    public int getImageId() {
-        return imageId;
-    }
-
-    public String getImage() {
-        return image;
-    }
 }
