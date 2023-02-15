@@ -1,9 +1,6 @@
 package com.cnu.swacademy.whereplace.domain.image;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 @Getter
@@ -11,6 +8,7 @@ import lombok.Getter;
 @Table(name = "image")
 public class Image {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int imageId;  // NOT NULL
 
     @Column(name = "image", nullable = false, length = 500)

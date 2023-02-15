@@ -1,9 +1,6 @@
 package com.cnu.swacademy.whereplace.domain.hashtag;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 @Getter
@@ -11,6 +8,7 @@ import lombok.Getter;
 @Table(name = "hashtag")
 public class HashTag {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int tagId;        // NOT NULL
 
     @Column(name = "tag_name", nullable = false, length = 45)
