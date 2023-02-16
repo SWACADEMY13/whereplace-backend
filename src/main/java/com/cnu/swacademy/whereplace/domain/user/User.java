@@ -2,12 +2,18 @@ package com.cnu.swacademy.whereplace.domain.user;
 
 import com.cnu.swacademy.whereplace.domain.comment.Comment;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "user")
 public class User {
@@ -26,10 +32,10 @@ public class User {
     @Column(name = "email", nullable = false, length = 30)
     private String email;     // NOT NULL
 
-    @OneToMany(mappedBy = "commented_user")
+    @OneToMany(mappedBy = "commentedUser")
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "posted_user")
+    @OneToMany(mappedBy = "postedUser")
     private List<Comment> posts = new ArrayList<>();
 
     public void setPassword(String password) {

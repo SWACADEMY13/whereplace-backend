@@ -1,18 +1,29 @@
 package com.cnu.swacademy.whereplace.domain.region;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.cnu.swacademy.whereplace.domain.post.Post;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "region")
 public class Region {
-    @Id // fk, 연관관계 매핑 필요
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int regionId;         // NOT NULL
 
     @Column(name = "region_name", nullable = false)
     private String regionName;    // NOT NULL
+
+    @OneToMany(mappedBy = "region_id")
+    private List<Post> posts = new ArrayList<>();
 }

@@ -3,7 +3,9 @@ package com.cnu.swacademy.whereplace.domain.comment;
 import com.cnu.swacademy.whereplace.domain.post.Post;
 import com.cnu.swacademy.whereplace.domain.user.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -12,6 +14,8 @@ import java.time.LocalDateTime;
 
 @DynamicInsert
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "comment")
 public class Comment {
@@ -21,11 +25,11 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
-    private Post post;               // NOT NULL
+    private Post postComment;               // NOT NULL
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private User commented_user;            // NOT NULL
+    private User commentedUser;            // NOT NULL
 
     @Column(name = "content", nullable = false, length = 200)
     private String content;                 // NOT NULL

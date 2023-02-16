@@ -1,8 +1,13 @@
 package com.cnu.swacademy.whereplace.domain.post;
 
+import com.cnu.swacademy.whereplace.domain.post_tag.PostTag;
+import com.cnu.swacademy.whereplace.domain.region.Region;
 import com.cnu.swacademy.whereplace.domain.user.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.DynamicInsert;
@@ -13,6 +18,9 @@ import java.util.List;
 
 @DynamicInsert
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "post")
 public class Post {
@@ -22,7 +30,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private User posted_user;            // NOT NULL
+    private User postedUser;            // NOT NULL
 
     @Column(name = "content", length = 1000)
     private String content;                 // NULLABLE
@@ -34,11 +42,16 @@ public class Post {
     @ColumnDefault("0")
     private int like;                       // NOT NULL
 
-    @Column(name = "regionId", nullable = false) // fk, 연관관계 매핑 필요
-    private int regionId;                   // NOT NULL
+    @ManyToOne
+    @JoinColumn(name = "region_id", referencedColumnName = "region_id")
+    private Region region;                   // NOT NULL
 
-    @OneToMany(mappedBy = "post")
-    private List<Comment> comments = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "postComment")
+//    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "postTag")
+    private List<PostTag> tags = new ArrayList<>();
 
     public void setContent(String content) {
         this.content = content;
@@ -48,7 +61,12 @@ public class Post {
         this.like = like;
     }
 
-    public void setRegionId(int regionId) {
-        this.regionId = regionId;
+//    public void setRegionId(int regionId) { // 수정 필요
+//        this.regionId = regionId;
+//    }
+
+    @Override
+    public String toString() {
+        return "Post{" + "id=" + postId + ", content='" + content + '\'' + '}';
     }
 }

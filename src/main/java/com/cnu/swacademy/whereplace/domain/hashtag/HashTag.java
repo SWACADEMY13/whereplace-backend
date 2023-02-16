@@ -1,9 +1,13 @@
 package com.cnu.swacademy.whereplace.domain.hashtag;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "hashtag")
 public class HashTag {
