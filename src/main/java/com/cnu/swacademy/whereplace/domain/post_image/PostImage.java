@@ -1,9 +1,8 @@
 package com.cnu.swacademy.whereplace.domain.post_image;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.cnu.swacademy.whereplace.domain.image.Image;
+import com.cnu.swacademy.whereplace.domain.post.Post;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +14,14 @@ import lombok.NoArgsConstructor;
 @Table(name = "post_image")
 public class PostImage {
     @Id
-    private int postId;   // NOT NULL   fk, 연관관계 매핑 필요
+    private int postId;
 
-    @Column(name = "image_id", nullable = false)
-    private int imageId;  // NOT NULL   fk, 연관관계 매핑 필요
+    @ManyToOne
+    @MapsId
+    @JoinColumn(name = "post_id", referencedColumnName = "post_id")
+    private Post postImage;
+
+    @OneToOne
+    @JoinColumn(name = "image_id", referencedColumnName = "image_id")
+    private Image image;
 }

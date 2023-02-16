@@ -18,19 +18,19 @@ import java.util.List;
 @Table(name = "user")
 public class User {
     @Id
-    private String userId;    // NOT NULL
+    private String userId;
 
     @Column(name = "password", nullable = false, length = 20)
-    private String password;        // NOT NULL
+    private String password;
 
     @Column(name = "name", nullable = false, length = 20)
-    private String name;            // NOT NULL
+    private String name;
 
     @Column(name = "phone", length = 11)
-    private String phone;           // NULLABLE
+    private String phone;
 
     @Column(name = "email", nullable = false, length = 30)
-    private String email;     // NOT NULL
+    private String email;
 
     @OneToMany(mappedBy = "commentedUser")
     private List<Comment> comments = new ArrayList<>();

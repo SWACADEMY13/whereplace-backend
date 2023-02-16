@@ -5,6 +5,7 @@ import com.cnu.swacademy.whereplace.domain.user.User;
 
 import java.time.LocalDateTime;
 
+// 글쓰기 임시 test용
 public class PostDto {
     private String content;
 

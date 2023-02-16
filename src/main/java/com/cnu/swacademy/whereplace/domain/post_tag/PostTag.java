@@ -1,5 +1,6 @@
 package com.cnu.swacademy.whereplace.domain.post_tag;
 
+import com.cnu.swacademy.whereplace.domain.hashtag.HashTag;
 import com.cnu.swacademy.whereplace.domain.post.Post;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class PostTag {
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
     private Post postTag;
 
-    @Column(name = "tag_id", nullable = false)
-    private int tagId;    // NOT NULL   fk, 연관관계 매핑 필요
+    @ManyToOne
+    @JoinColumn(name = "tag_id", referencedColumnName = "tag_id")
+    private HashTag hashTag;
 }

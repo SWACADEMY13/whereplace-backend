@@ -19,10 +19,10 @@ import java.util.List;
 public class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int regionId;         // NOT NULL
+    private int regionId;
 
     @Column(name = "region_name", nullable = false)
-    private String regionName;    // NOT NULL
+    private String regionName;
 
     @OneToMany(mappedBy = "region_id")
     private List<Post> posts = new ArrayList<>();

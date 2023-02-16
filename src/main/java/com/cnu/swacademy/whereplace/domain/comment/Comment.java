@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -21,31 +20,31 @@ import java.time.LocalDateTime;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int commentId;            // NOT NULL
+    private int commentId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
-    private Post postComment;               // NOT NULL
+    private Post postComment;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private User commentedUser;            // NOT NULL
+    private User commentedUser;
 
     @Column(name = "content", nullable = false, length = 200)
-    private String content;                 // NOT NULL
+    private String content;
 
     @Column(name = "posted_date", nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime postedDate; // NOT NULL
+    private LocalDateTime postedDate;
 
-    @Column(name = "like", nullable = false)
+    @Column(name = "commnet_like", nullable = false)
     @ColumnDefault("0")
-    private int like;
+    private int commentLike;
 
     public void setContent(String content) {
         this.content = content;
     }
 
-    public void setLike(int like) {
-        this.like = like;
+    public void setLike(int commentLike) {
+        this.commentLike = commentLike;
     }
 }

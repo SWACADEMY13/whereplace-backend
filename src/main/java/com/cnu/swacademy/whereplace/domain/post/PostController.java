@@ -10,6 +10,8 @@ public class PostController {
     @Autowired
     private PostRepository postRepository;
 
+
+    // 글쓰기 임시 test용
     @GetMapping("/post/new")
     public String createPost(PostDto dto) {
         System.out.println(dto.toString());
