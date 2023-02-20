@@ -2,15 +2,13 @@ package com.cnu.swacademy.whereplace.domain.region;
 
 import com.cnu.swacademy.whereplace.domain.post.Post;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,11 +17,13 @@ import java.util.List;
 public class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "region_id")
     private int regionId;
 
     @Column(name = "region_name", nullable = false)
     private String regionName;
 
-    @OneToMany(mappedBy = "region_id")
+    @Builder.Default
+    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 }

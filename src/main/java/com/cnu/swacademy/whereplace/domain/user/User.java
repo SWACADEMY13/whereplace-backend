@@ -1,16 +1,15 @@
 package com.cnu.swacademy.whereplace.domain.user;
 
 import com.cnu.swacademy.whereplace.domain.comment.Comment;
+import com.cnu.swacademy.whereplace.domain.post.Post;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +17,7 @@ import java.util.List;
 @Table(name = "user")
 public class User {
     @Id
+    @Column(name = "user_id")
     private String userId;
 
     @Column(name = "password", nullable = false, length = 20)
@@ -26,17 +26,19 @@ public class User {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
-    @Column(name = "phone", length = 11)
+    @Column(name = "phone", length = 20)
     private String phone;
 
     @Column(name = "email", nullable = false, length = 30)
     private String email;
 
-    @OneToMany(mappedBy = "commentedUser")
+    @Builder.Default
+    @OneToMany(mappedBy = "commentedUser", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "postedUser")
-    private List<Comment> posts = new ArrayList<>();
+    @Builder.Default
+    @OneToMany(mappedBy = "postedUser", cascade = CascadeType.ALL)
+    private List<Post> posts = new ArrayList<>();
 
     public void setPassword(String password) {
         this.password = password;
