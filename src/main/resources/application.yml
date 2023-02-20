@@ -3,11 +3,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost/where_place
     username: root
-    password: swacademy13
+    password: swacademytest
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     database: mysql
     show-sql: true
     open-in-view: false
