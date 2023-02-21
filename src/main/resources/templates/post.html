@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/post.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Long+Cang&display=swap" rel="stylesheet">
+    <title>Where Place</title>
+</head>
+<body>
+<header class="header">
+    <div class="header_logo">
+        <a href="#">
+            <h1>W H E R E &nbsp; P L A C E</h1>
+        </a>
+    </div>
+    <div class="header_menu">
+        <ul>
+            <li><a href="#">인기 게시물</a></li>
+            <li><a href="#">위치 검색</a></li>
+            <li><a href="#">태그 검색</a></li>
+        </ul>
+    </div>
+</header>
+<main class="main_box">
+    <section class="items_box">
+        <div class="photo">
+
+        </div>
+        <div class="info_box">
+            <!-- /articles/create 경로 -> 확인하기 -->
+            <form action="/post/new" method="post">
+                <!-- name값 확인하기-> 블로그에서는 title -->
+                <textarea class="content" placeholder="내용 입력" name="content"></textarea>
+            </form>
+            <div class="location_container">
+                <div class="gray_box">
+<!--                    <div class="location_box">-->
+<!--                        <div class="selects">-->
+<!--                            <select name="시/도">-->
+<!--                                <option value="시/도">시/도</option>-->
+<!--                            </select>-->
+<!--                            <select name="구/군">-->
+<!--                                <option value="구/군">구/군</option>-->
+<!--                            </select>-->
+<!--                            <select name="읍/면/동">-->
+<!--                                <option value="읍/면/동">읍/면/동</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                        <div class="map_api"></div>-->
+<!--                    </div>-->
+<!--                    <div class="tag_box">-->
+<!--                        <input class="tag" type="text">-->
+<!--                    </div>-->
+                    <div class="button_box">
+                        <button class="post_button">올리기</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+</body>

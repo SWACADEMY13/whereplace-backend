@@ -31,6 +31,21 @@ public class PostDto {
     private List<PostTagDto> tagDtos;
     private List<PostImageDto> imageDtos;
 
+    public PostDto(String content) {
+        this.content = content;
+        this.postedUserDto = UserDto.builder()
+                .userId("test")
+                .password("1234")
+                .name("홍길동")
+                .phone("01012345678")
+                .email("test@gmail.com")
+                .build();
+        this.postedDate = LocalDateTime.now();
+        this.regionDto = RegionDto.builder()
+                .regionId(1)
+                .regionName("대전")
+                .build();
+    }
     @Override
     public String toString() {
         return "PostDto{" + "content='" + content + '\'' + '}';
