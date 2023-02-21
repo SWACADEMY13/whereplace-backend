@@ -10,7 +10,22 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostImageDto {
-    private int postId;
-    private PostDto postDto;
-    private ImageDto image;
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Request{
+        private int postId;
+        private PostDto postDto;
+        private ImageDto image;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Respond{
+        private int postId;
+        private PostDto postDto;
+        private ImageDto image;
+    }
 }

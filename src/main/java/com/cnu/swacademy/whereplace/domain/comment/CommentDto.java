@@ -12,10 +12,29 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentDto {
-    private int commentId;
-    private PostDto postDto;
-    private UserDto commentedUserDto;
-    private String content;
-    private LocalDateTime postedDate;
-    private int commentLike;
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Request{
+        private Long commentId;
+        private PostDto commentedPost;
+        private UserDto commentedUser;
+        private String content;
+        private LocalDateTime postedDate;
+        private int commentLike;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Respond{
+        private Long commentId;
+        private PostDto commentedPost;
+        private UserDto commentedUser;
+        private String content;
+        private LocalDateTime postedDate;
+        private int commentLike;
+    }
 }

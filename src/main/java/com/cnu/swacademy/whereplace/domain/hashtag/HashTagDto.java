@@ -8,6 +8,22 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HashTagDto {
-    private int tagId;
-    private String tagName;
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Request{
+        private Integer tagId;
+        private String tagName;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class Respond {
+        private Integer tagId;
+        private String tagName;
+    }
 }
