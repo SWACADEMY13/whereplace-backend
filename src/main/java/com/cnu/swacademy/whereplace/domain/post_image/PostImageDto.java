@@ -29,7 +29,6 @@ public class PostImageDto {
         }
     }
 
-    @Builder
     @Getter
     public static class Response{
         private int postId;

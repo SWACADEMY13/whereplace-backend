@@ -25,7 +25,6 @@ public class HashTagDto {
         }
     }
 
-    @Builder
     @Getter
     public static class Response {
         private Integer tagId;

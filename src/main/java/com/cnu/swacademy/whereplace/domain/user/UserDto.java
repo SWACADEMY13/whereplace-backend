@@ -33,7 +33,6 @@ public class UserDto {
         }
     }
 
-    @Builder
     @Getter
     public static class Response{
         private String userId;

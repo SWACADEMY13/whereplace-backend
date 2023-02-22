@@ -18,12 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class PostDto {
     @AllArgsConstructor
     @NoArgsConstructor
@@ -53,7 +48,6 @@ public class PostDto {
         }
     }
 
-    @Builder
     @Getter
     public static class Response{
         private int postId;

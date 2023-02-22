@@ -20,10 +20,11 @@ public class PostController {
 
     // 글쓰기 임시 test용
     @GetMapping("/post/new")
-    public String createPost(PostDto dto) {
+    public String createPost(PostDto.Request dto) {
         System.out.println(dto.toString());
 
-        return postService.save(dto);
+        //return postService.save(dto);
+        return dto.toString();
     }
 
     /******************** create ***********************

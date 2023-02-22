@@ -26,7 +26,6 @@ public class RegionDto {
         }
     }
 
-    @Builder
     @Getter
     public static class Response{
         private int regionId;

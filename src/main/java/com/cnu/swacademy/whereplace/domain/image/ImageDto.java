@@ -25,7 +25,6 @@ public class ImageDto {
         }
     }
 
-    @Builder
     @Getter
     public static class Response{
         private int imageId;

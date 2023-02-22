@@ -33,7 +33,6 @@ public class CommentDto {
         }
     }
 
-    @Builder
     @Getter
     public static class Response{
         private int commentId;

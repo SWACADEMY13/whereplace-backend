@@ -30,7 +30,6 @@ public class PostTagDto {
         }
     }
 
-    @Builder
     @Getter
     public static class Response{
         private int postId;
