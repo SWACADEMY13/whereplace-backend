@@ -1,30 +1,15 @@
-package com.cnu.swacademy.whereplace.domain.post;
+package com.cnu.swacademy.whereplace.domain.comment;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.cnu.swacademy.whereplace.domain.post.PostDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-// 주석은 개인적인 메모입니당
-
 @Controller
-@RequestMapping("/whereplace/posts")
-public class PostController {
-
-    @Autowired
-    private PostService postService;
-
-
-    // 글쓰기 임시 test용
-    @GetMapping("/post/new")
-    public String createPost(PostDto dto) {
-        System.out.println(dto.toString());
-
-        return postService.save(dto);
-    }
+@RequestMapping("/whereplace/comments")
+public class CommentController {
 
     /******************** create ***********************
      1. 서버 사이드 렌더링 시, html 생성하여 제공
@@ -34,6 +19,7 @@ public class PostController {
     public String create(PostDto postDTO){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
         return null;
     }
+
 
 
     /******************** read ***********************
@@ -65,5 +51,4 @@ public class PostController {
 
     @PostMapping("/delete-process")
     public void delete(int postId){}
-
 }
