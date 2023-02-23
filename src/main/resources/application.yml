@@ -14,3 +14,5 @@ spring:
     properties:
       hibernate:
         query.in_clause_parameter_padding: true
+server:
+  port: 8080
