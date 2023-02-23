@@ -1,15 +1,25 @@
 package com.cnu.swacademy.whereplace.domain.comment;
 
 
+import com.cnu.swacademy.whereplace.domain.post.Post;
 import com.cnu.swacademy.whereplace.domain.post.PostDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/whereplace/comments")
 public class CommentController {
+
+    private final CommentService commentService;
+
+    public CommentController(CommentService commentService) {
+        this.commentService = commentService;
+    }
+
 
     /******************** create ***********************
      1. 서버 사이드 렌더링 시, html 생성하여 제공
@@ -26,10 +36,10 @@ public class CommentController {
      1. 게시판 ID로 DB 조회
      *************************************************/
 
-    @GetMapping("/view/*")
-    public String read(int postId){ // 게시판 ID로 DB 조회 후 query 결과 가져옴
-        return null;
-    }
+//    @GetMapping("/view/*")
+//    public String read(@RequestParam int postId){ // 게시판 ID로 DB 조회 후 query 결과 가져옴
+//        Post post=
+//    }
 
 
 

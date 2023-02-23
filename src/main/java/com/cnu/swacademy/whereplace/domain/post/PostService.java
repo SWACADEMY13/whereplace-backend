@@ -11,15 +11,15 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
-//    @Transactional
-//    public String save(PostDto dto) {
-//
-//        // 1. dto -> entity
-//        Post post = dto.toEntity(dto);
-//
-//        // 2. entity DB에 저장
-//        Post saved = postRepository.save(post);
-//
-//        return saved.toString();
-//    }
+    @Transactional
+    public PostDto.Response save(PostDto.Request dto) {
+
+        // 1. dto -> entity
+        Post post = dto.toEntity();
+
+        // 2. entity DB에 저장
+        Post saved = postRepository.save(post);
+
+        return new PostDto.Response(saved);
+    }
 }

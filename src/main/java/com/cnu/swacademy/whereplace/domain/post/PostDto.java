@@ -33,18 +33,25 @@ public class PostDto {
         private RegionDto.Request regionDto;
 //        private List<CommentDto> commentDtos; // 글 생성할 때는 댓글을 받을 일이 없어서 없어도 될 것 같아서 일단 주석처리 해놨습니다!
         private List<PostTagDto.Request> tagDtos;
-        private List<PostImageDto.Request> imageDtos;
+        private List<PostImageDto.Request> imageDtos; // NOT NULL
 
         // Dto -> Entity
         public Post toEntity() {
-            return Post.builder()
+            Post post = Post.builder()
                     .postedUser(postedUserDto.toEntity())
                     .content(content)
                     .postedDate(LocalDateTime.now())
                     .region(regionDto.toEntity())
-                    .tags(tagDtos.stream().map(PostTagDto.Request::toEntity).collect(Collectors.toList()))
-                    .images(imageDtos.stream().map(PostImageDto.Request::toEntity).collect(Collectors.toList()))
                     .build();
+
+            try {
+                post.setTags(tagDtos.stream().map(PostTagDto.Request::toEntity).collect(Collectors.toList()));
+                post.setImages(imageDtos.stream().map(PostImageDto.Request::toEntity).collect(Collectors.toList()));
+            } catch(Exception e) {
+
+            }
+
+            return post;
         }
     }
 
@@ -68,8 +75,17 @@ public class PostDto {
             this.postedDate = post.getPostedDate();
             this.postLike = post.getPostLike();
             this.regionDto = new RegionDto.Response(post.getRegion());
-            this.commentDtos = post.getComments().stream().map(CommentDto.Response::new).collect(Collectors.toList());
-            this.tagDtos = post.getTags().stream().map(PostTagDto.Response::new).collect(Collectors.toList());
+            try {
+                if (!commentDtos.isEmpty()) {
+                    this.commentDtos = post.getComments().stream().map(CommentDto.Response::new).collect(Collectors.toList());
+                }
+                if (!tagDtos.isEmpty()) {
+                    this.tagDtos = post.getTags().stream().map(PostTagDto.Response::new).collect(Collectors.toList());
+                }
+            } catch (Exception e) {
+
+            }
+
             this.imageDtos = post.getImages().stream().map(PostImageDto.Response::new).collect(Collectors.toList());
         }
     }
