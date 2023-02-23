@@ -14,17 +14,13 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-//
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class PostDto {
+    @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Request{
+    public static class REQUEST{
         private int postId;
         private UserDto postedUserDto;
         private String content;
@@ -40,7 +36,7 @@ public class PostDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Respond{
+    public static class RESPOND{
         private int postId;
         private UserDto postedUserDto;
         private String content;
@@ -51,55 +47,4 @@ public class PostDto {
         private List<PostTagDto> tagDtos;
         private List<PostImageDto> imageDtos;
     }
-
-
-//    private int postId;
-//    private UserDto postedUserDto;
-//    private String content;
-//    private LocalDateTime postedDate;
-//    private int postLike;
-//    private RegionDto regionDto;
-//    private List<CommentDto> commentDtos;
-//    private List<PostTagDto> tagDtos;
-//    private List<PostImageDto> imageDtos;
-
-//    @Override
-//    public String toString() {
-//        return "PostDto{" + "content='" + content + '\'' + '}';
-//    } // 수정 필요,,,
-//
-//    public Post toEntity(PostDto dto) {
-//        Post post = Post.builder()
-//            .postedUser(
-//                    User.builder()
-//                            .userId(dto.postedUserDto.getUserId())
-//                            .password(dto.postedUserDto.getPassword())
-//                            .name(dto.postedUserDto.getName())
-//                            .phone(dto.postedUserDto.getPhone())
-//                            .email(dto.postedUserDto.getEmail())
-//                            .build()
-//            )
-//            .content(dto.getContent())
-//            .postedDate(dto.getPostedDate())
-//            .region(
-//                    Region.builder()
-//                            .regionName(dto.regionDto.getRegionName())
-//                            .build()
-//            )
-//            .build();
-//
-//        post.setTags(List.of(
-//                PostTag.builder()
-//                        .postTag(post)
-//                        .hashTag(
-//                                HashTag.builder()
-//                                        .tagId(dto.getTagDtos().get(0).getHashTagDto().getTagId())
-//                                        .tagName(dto.getTagDtos().get(0).getHashTagDto().getTagName())
-//                                        .build()
-//                        )
-//                        .build()
-//        ));
-//
-//        return post;
-//    }
 }

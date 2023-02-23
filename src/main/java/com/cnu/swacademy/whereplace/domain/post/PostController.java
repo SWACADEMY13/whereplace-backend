@@ -1,6 +1,7 @@
 package com.cnu.swacademy.whereplace.domain.post;
 
 
+import com.cnu.swacademy.whereplace.domain.user.UserDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/whereplace/posts")
 public class PostController {
 
+
+
     /******************** create ***********************
         1. 서버 사이드 렌더링 시, html 생성하여 제공
         2. 프론트 렌터링 시, JSON 제공
      *************************************************/
     @PostMapping("/create-process")
-    public String create(PostDto postDTO){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
+    public String create(PostDto postDTO){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때
+
         return null;
     }
 

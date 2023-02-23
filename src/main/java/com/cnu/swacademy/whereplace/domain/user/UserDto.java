@@ -5,17 +5,13 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class UserDto {
 
+public class UserDto {
+    @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Request{
+    public static class REQUEST{
         private String userId;
         private String password;
         private String name;
@@ -27,7 +23,7 @@ public class UserDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Respond{
+    public static class RESPOND{
         private String userId;
         private String password;
         private String name;

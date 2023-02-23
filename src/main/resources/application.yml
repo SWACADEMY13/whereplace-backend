@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost/where_place
     username: root
-    password: swacademytest
+    password: dydrkfl#7!
   jpa:
     generate-ddl: true
     hibernate:
@@ -14,3 +14,8 @@ spring:
     properties:
       hibernate:
         query.in_clause_parameter_padding: true
+  web:
+    resources:
+      static-locations: classpath:/static/
+  thymeleaf:
+    prefix: classpath:/templates/

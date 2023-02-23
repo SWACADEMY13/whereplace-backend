@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/screen.css">
+    <title>Where Place</title>
+    <script>
+        let loginButton=document.getElementById("login");
+        console.log(window.sessionStorage.length);
+        // if(){
+        //     console.log("로그인 성공");
+        //     loginButton.innerHTML="로그아웃";
+        // }else{
+        //     console.log("로그인 실패");
+        // }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="header__logo">
+            <a href="#">
+                <h1>Where Place</h1>
+            </a>
+        </div>
+        <a href="login.html" id="login">로그인</a>
+            <a href="register.html">회원가입
+                <a href="/whereplace/user/logout-process">
+        <div class="header_menu">
+            <ul>
+                <li><a href="#"><img src="/imgsrc/geo-alt.svg"> 위치 검색</a></li>
+                <li><a href="#"><img src="/imgsrc/hash.svg"> 테마 검색</a></li>
+                <li><a href="#">글쓰기</a></li>
+                <li><a href="#">인기 게시물</a></li>
+                <li><a href="#">내 프로필</a></li>
+            </ul>
+        </div>
+    </header>
+    
+    <main class="main_box">
+        <div class="contents_box">
+            <div class="profile_background">
+                <div class="profile_img"></div>
+            </div>
+            <div class="profile_info">
+                <span class="user_name">${user name}}</span>
+                <div class="info_box">
+                    <span class="info_text">${소개글}</span>
+                </div>
+                <button class="edit_profile">
+                    프로필 편집
+                </button>
+            </div>
+            <div class="pics_box">
+                <div class="pic"></div>
+                <div class="pic"></div>
+                <div class="pic"></div>
+                <div class="pic"></div>
+                <div class="pic"></div>
+                <div class="pic"></div>
+                <div class="pic"></div>
+                <div class="pic"></div>
+                <div class="pic"></div>
+            </div>  
+        </div>
+    </main>
+</body>

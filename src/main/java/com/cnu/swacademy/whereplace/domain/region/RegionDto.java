@@ -4,13 +4,10 @@ import com.cnu.swacademy.whereplace.domain.hashtag.HashTagDto;
 import com.cnu.swacademy.whereplace.domain.post.PostDto;
 import lombok.*;
 
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class RegionDto {
 
+    @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
