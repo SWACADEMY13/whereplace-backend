@@ -19,18 +19,19 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-    public String create(PostDto postDTO){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
-        return null;
-    }
-//
-//    public List<Comment> showAllComments(int postId){
-//        List<Comment> comments=commentRepository.findAllById();
-//    }
-//
-//    public Post read(int postId){ // 게시판 ID로 DB 조회 후 query 결과 가져옴
-//    }
+    public String create(PostDto postDTO){
 
-//    public Post getPost(Post)
+    }
+
+    public List<Comment> showAllComments(int postId){
+        List<Comment> comments=commentRepository.findAllById();
+    }
+
+    public Post read(int postId){ // 게시판 ID로 DB 조회 후 query 결과 가져옴
+
+    }
+
+    public Post getPost(Post)
 
     public String update(PostDto postDTO){return null;}
 

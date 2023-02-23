@@ -18,7 +18,7 @@ public class HashTagDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Respond {
+    public static class Response {
         private Integer tagId;
         private String tagName;
     }

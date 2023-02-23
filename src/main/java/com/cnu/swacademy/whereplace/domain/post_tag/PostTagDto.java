@@ -14,18 +14,18 @@ public class PostTagDto {
     @Builder
     public static class Request{
         private int postId;
-        private PostDto postDto;
-        private HashTagDto hashTagDto;
+        private PostDto.Request postDto;
+        private HashTagDto.Request hashTagDto;
     }
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Respond{
+    public static class Response{
         private int postId;
-        private PostDto postDto;
-        private HashTagDto hashTagDto;
+        private PostDto.Response postDto;
+        private HashTagDto.Response hashTagDto;
     }
 
 }

@@ -11,7 +11,7 @@ public class UserDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class REQUEST{
+    public static class Request{
         private String userId;
         private String password;
         private String name;
@@ -23,7 +23,7 @@ public class UserDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class RESPOND{
+    public static class Response{
         private String userId;
         private String password;
         private String name;

@@ -12,17 +12,17 @@ public class PostImageDto {
     @Builder
     public static class Request{
         private int postId;
-        private PostDto postDto;
-        private ImageDto image;
+        private PostDto.Request postDto;
+        private ImageDto.Request image;
     }
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Respond{
+    public static class Response{
         private int postId;
-        private PostDto postDto;
-        private ImageDto image;
+        private PostDto.Response postDto;
+        private ImageDto.Response image;
     }
 }

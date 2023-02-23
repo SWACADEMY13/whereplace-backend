@@ -20,7 +20,7 @@ public class RegionDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Respond{
+    public static class Response{
         private int regionId;
         private String regionName;
     }

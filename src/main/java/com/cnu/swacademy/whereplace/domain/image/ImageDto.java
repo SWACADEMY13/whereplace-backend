@@ -18,7 +18,7 @@ public class ImageDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Respond{
+    public static class Response{
         private Integer imageId;
         private String image;
     }

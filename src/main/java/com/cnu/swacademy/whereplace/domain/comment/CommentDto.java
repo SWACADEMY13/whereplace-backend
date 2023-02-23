@@ -14,9 +14,9 @@ public class CommentDto {
     @NoArgsConstructor
     @Builder
     public static class Request{
-        private Long commentId;
-        private PostDto commentedPost;
-        private UserDto commentedUser;
+        private int commentId;
+        private PostDto.Request commentedPost;
+        private UserDto.Request commentedUser;
         private String content;
         private LocalDateTime postedDate;
         private int commentLike;
@@ -26,10 +26,10 @@ public class CommentDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class Respond{
-        private Long commentId;
-        private PostDto commentedPost;
-        private UserDto commentedUser;
+    public static class Response{
+        private int commentId;
+        private PostDto.Response commentedPost;
+        private UserDto.Response commentedUser;
         private String content;
         private LocalDateTime postedDate;
         private int commentLike;

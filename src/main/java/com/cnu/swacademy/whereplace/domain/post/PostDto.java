@@ -20,31 +20,31 @@ public class PostDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class REQUEST{
+    public static class Request{
         private int postId;
         private UserDto postedUserDto;
         private String content;
         private LocalDateTime postedDate;
         private int postLike;
-        private RegionDto regionDto;
-        private List<CommentDto> commentDtos;
-        private List<PostTagDto> tagDtos;
-        private List<PostImageDto> imageDtos;
+        private RegionDto.Request regionDto;
+        private List<CommentDto.Request> commentDtos;
+        private List<PostTagDto.Request> tagDtos;
+        private List<PostImageDto.Request> imageDtos;
     }
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class RESPOND{
+    public static class Response{
         private int postId;
         private UserDto postedUserDto;
         private String content;
         private LocalDateTime postedDate;
         private int postLike;
-        private RegionDto regionDto;
-        private List<CommentDto> commentDtos;
-        private List<PostTagDto> tagDtos;
-        private List<PostImageDto> imageDtos;
+        private RegionDto.Response regionDto;
+        private List<CommentDto.Response> commentDtos;
+        private List<PostTagDto.Response> tagDtos;
+        private List<PostImageDto.Response> imageDtos;
     }
 }
