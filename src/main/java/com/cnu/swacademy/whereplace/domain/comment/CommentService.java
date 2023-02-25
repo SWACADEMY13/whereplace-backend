@@ -2,36 +2,63 @@ package com.cnu.swacademy.whereplace.domain.comment;
 
 import com.cnu.swacademy.whereplace.domain.post.Post;
 import com.cnu.swacademy.whereplace.domain.post.PostDto;
+import com.cnu.swacademy.whereplace.domain.post.PostService;
+import com.cnu.swacademy.whereplace.domain.user.User;
+import com.cnu.swacademy.whereplace.domain.user.UserDto;
+import com.cnu.swacademy.whereplace.domain.user.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class CommentService {
+    @Autowired
+    private PostService postService;
 
-    private final CommentRepository commentRepository;
+    @Autowired
+    private UserService userService;
 
-    public CommentService(CommentRepository commentRepository) {
-        this.commentRepository = commentRepository;
+    @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    public Comment save(CommentDto.Request givenRequestCommentDto){
+        Comment comment=toEntity(givenRequestCommentDto);
+        User mappedUser=userService.find(givenRequestCommentDto.getCommentedUserId());
+        Post mappedPost=postService.find(givenRequestCommentDto.getCommentedPostId());
+
+        comment.setCommentedUser(mappedUser);
+        comment.setPostComment(mappedPost);
+        comment.setPostedDate(LocalDateTime.now());
+
+        return commentRepository.save(comment);
     }
 
-    public String create(PostDto postDTO){
-
+    public Comment toEntity(CommentDto.Request givenRequestUserDto) {
+        return modelMapper.map(givenRequestUserDto, Comment.class);
     }
 
     public List<Comment> showAllComments(int postId){
-        List<Comment> comments=commentRepository.findAllById();
+        return null;
     }
 
     public Post read(int postId){ // 게시판 ID로 DB 조회 후 query 결과 가져옴
-
+        return null;
     }
 
-    public Post getPost(Post)
+    public Post getPost(Post psot){
+        return null;
+
+    }
 
     public String update(PostDto postDTO){return null;}
 

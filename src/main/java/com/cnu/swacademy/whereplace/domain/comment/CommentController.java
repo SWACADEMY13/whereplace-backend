@@ -3,22 +3,25 @@ package com.cnu.swacademy.whereplace.domain.comment;
 
 import com.cnu.swacademy.whereplace.domain.post.Post;
 import com.cnu.swacademy.whereplace.domain.post.PostDto;
+import com.cnu.swacademy.whereplace.domain.post.PostService;
+import com.cnu.swacademy.whereplace.domain.user.User;
+import com.cnu.swacademy.whereplace.domain.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/whereplace/comments")
 public class CommentController {
 
-    private final CommentService commentService;
+    @Autowired
+    private CommentService commentService;
 
-    public CommentController(CommentService commentService) {
-        this.commentService = commentService;
-    }
+
+
 
 
     /******************** create ***********************
@@ -26,8 +29,9 @@ public class CommentController {
      2. 프론트 렌터링 시, JSON 제공
      *************************************************/
     @PostMapping("/create-process")
-    public String create(PostDto postDTO){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
-        return null;
+    public String create(CommentDto.Request givenRequestCommentDto){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
+        return "/whereplace/posts/view/"+commentService.save(givenRequestCommentDto).getCommentId();
+
     }
 
 
@@ -36,10 +40,10 @@ public class CommentController {
      1. 게시판 ID로 DB 조회
      *************************************************/
 
-//    @GetMapping("/view/*")
-//    public String read(@RequestParam int postId){ // 게시판 ID로 DB 조회 후 query 결과 가져옴
-//        Post post=
-//    }
+    @GetMapping("/read")
+    public String readAll(@RequestBody Map<String,Object> givenRequestJson){ // 게시판 ID로 DB 조회 후 query 결과 가져옴
+        return null;
+    }
 
 
 

@@ -6,26 +6,39 @@ import com.cnu.swacademy.whereplace.domain.post.PostDto;
 import lombok.*;
 
 
+@Data
 public class PostTagDto {
-
-    @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    @Getter
     public static class Request{
         private int postId;
         private PostDto.Request postDto;
         private HashTagDto.Request hashTagDto;
+
+        // Dto -> Entity
+        public PostTag toEntity() {
+            return PostTag.builder()
+                    .postId(postId)
+                    .postTag(postDto.toEntity())
+                    .hashTag(hashTagDto.toEntity())
+                    .build();
+        }
     }
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
+    @Getter
     public static class Response{
         private int postId;
         private PostDto.Response postDto;
         private HashTagDto.Response hashTagDto;
+
+        // Entity -> Dto
+        public Response(PostTag postTag) {
+            this.postId = postTag.getPostId();
+            this.postDto = new PostDto.Response(postTag.getPostTag());
+            this.hashTagDto = new HashTagDto.Response(postTag.getHashTag());
+        }
     }
 
 }

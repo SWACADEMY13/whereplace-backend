@@ -6,28 +6,46 @@ import lombok.*;
 import java.util.List;
 
 
+@Data
 public class UserDto {
-    @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    @Getter
     public static class Request{
         private String userId;
         private String password;
         private String name;
         private String phone;
         private String email;
+
+        // Dto -> Entity
+        public User toEntity() {
+            return User.builder()
+                    .userId(userId)
+                    .password(password)
+                    .name(name)
+                    .phone(phone)
+                    .email(email)
+                    .build();
+        }
     }
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
+    @Getter
     public static class Response{
         private String userId;
         private String password;
         private String name;
         private String phone;
         private String email;
+
+        // Entity -> Dto
+        public Response(User user) {
+            this.userId = user.getUserId();
+            this.password = user.getPassword();
+            this.name = user.getName();
+            this.phone = user.getPhone();
+            this.email = user.getEmail();
+        }
     }
 }

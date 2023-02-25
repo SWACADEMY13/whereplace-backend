@@ -21,8 +21,13 @@ public class UserService {
         this.repository = repository;
     }
 
-    public User getUserDto(UserDto.REQUEST givenRequestUserDto) {
+    public User toEntity(UserDto.Request givenRequestUserDto) {
         return modelMapper.map(givenRequestUserDto, User.class);
+    }
+
+    public User find(String givenUserId){
+        Optional<User> foundUser=repository.findById(givenUserId);
+        return foundUser.orElse(null);
     }
 
     @Transactional

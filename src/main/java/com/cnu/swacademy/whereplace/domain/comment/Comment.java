@@ -3,10 +3,7 @@ package com.cnu.swacademy.whereplace.domain.comment;
 import com.cnu.swacademy.whereplace.domain.post.Post;
 import com.cnu.swacademy.whereplace.domain.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -18,6 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "comment")
 public class Comment {
     @Id

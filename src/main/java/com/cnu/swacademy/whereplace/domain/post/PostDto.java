@@ -13,8 +13,9 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
-
+@Data
 public class PostDto {
     @Data
     @AllArgsConstructor
@@ -22,7 +23,7 @@ public class PostDto {
     @Builder
     public static class Request{
         private int postId;
-        private UserDto postedUserDto;
+        private UserDto.Request postedUserDto;
         private String content;
         private LocalDateTime postedDate;
         private int postLike;
@@ -30,6 +31,25 @@ public class PostDto {
         private List<CommentDto.Request> commentDtos;
         private List<PostTagDto.Request> tagDtos;
         private List<PostImageDto.Request> imageDtos;
+
+        // Dto -> Entity
+        public Post toEntity() {
+            Post post = Post.builder()
+                    .postedUser(postedUserDto.toEntity())
+                    .content(content)
+                    .postedDate(LocalDateTime.now())
+                    .region(regionDto.toEntity())
+                    .build();
+
+            try {
+                post.setTags(tagDtos.stream().map(PostTagDto.Request::toEntity).collect(Collectors.toList()));
+                post.setImages(imageDtos.stream().map(PostImageDto.Request::toEntity).collect(Collectors.toList()));
+            } catch(Exception e) {
+
+            }
+
+            return post;
+        }
     }
 
     @Data
@@ -38,7 +58,7 @@ public class PostDto {
     @Builder
     public static class Response{
         private int postId;
-        private UserDto postedUserDto;
+        private UserDto.Response postedUserDto;
         private String content;
         private LocalDateTime postedDate;
         private int postLike;
@@ -46,5 +66,27 @@ public class PostDto {
         private List<CommentDto.Response> commentDtos;
         private List<PostTagDto.Response> tagDtos;
         private List<PostImageDto.Response> imageDtos;
+
+        // Entity -> Dto
+        public Response(Post post) {
+            this.postId = post.getPostId();
+            this.postedUserDto = new UserDto.Response(post.getPostedUser());
+            this.content = post.getContent();
+            this.postedDate = post.getPostedDate();
+            this.postLike = post.getPostLike();
+            this.regionDto = new RegionDto.Response(post.getRegion());
+            try {
+                if (!commentDtos.isEmpty()) {
+                    this.commentDtos = post.getComments().stream().map(CommentDto.Response::new).collect(Collectors.toList());
+                }
+                if (!tagDtos.isEmpty()) {
+                    this.tagDtos = post.getTags().stream().map(PostTagDto.Response::new).collect(Collectors.toList());
+                }
+            } catch (Exception e) {
+
+            }
+
+            this.imageDtos = post.getImages().stream().map(PostImageDto.Response::new).collect(Collectors.toList());
+        }
     }
 }

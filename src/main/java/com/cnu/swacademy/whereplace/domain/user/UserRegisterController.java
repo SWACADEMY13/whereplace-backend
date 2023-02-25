@@ -10,15 +10,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class UserRegisterController {
 
-    private final UserService userService;
-
-    public UserRegisterController(UserService userService) {
-        this.userService = userService;
-    }
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/whereplace/register-process")
-    public String register(UserDto.REQUEST requestUserDto){  // 정규식은 미적용
-        User user=userService.getUserDto(requestUserDto);
+    public String register(UserDto.Request requestUserDto){  // 정규식은 미적용
+        User user=userService.toEntity(requestUserDto);
         userService.save(user);
         return "redirect:/index.html";
     }
