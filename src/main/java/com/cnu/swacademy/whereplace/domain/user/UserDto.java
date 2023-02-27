@@ -1,8 +1,11 @@
 package com.cnu.swacademy.whereplace.domain.user;
 
+import com.cnu.swacademy.whereplace.domain.comment.Comment;
 import com.cnu.swacademy.whereplace.domain.comment.CommentDto;
+import com.cnu.swacademy.whereplace.domain.post.Post;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,6 +41,9 @@ public class UserDto {
         private String name;
         private String phone;
         private String email;
+        private List<Comment> comments = new ArrayList<>();
+        private List<Post> posts = new ArrayList<>();
+
 
         // Entity -> Dto
         public Response(User user) {
@@ -46,6 +52,8 @@ public class UserDto {
             this.name = user.getName();
             this.phone = user.getPhone();
             this.email = user.getEmail();
+            this.comments =user.getComments();
+            this.posts=user.getPosts();
         }
     }
 }

@@ -1,13 +1,12 @@
 package com.cnu.swacademy.whereplace.domain.post;
 
+import com.cnu.swacademy.whereplace.domain.comment.Comment;
 import com.cnu.swacademy.whereplace.domain.comment.CommentDto;
-import com.cnu.swacademy.whereplace.domain.hashtag.HashTag;
+import com.cnu.swacademy.whereplace.domain.post_image.PostImage;
 import com.cnu.swacademy.whereplace.domain.post_image.PostImageDto;
 import com.cnu.swacademy.whereplace.domain.post_tag.PostTag;
 import com.cnu.swacademy.whereplace.domain.post_tag.PostTagDto;
-import com.cnu.swacademy.whereplace.domain.region.Region;
 import com.cnu.swacademy.whereplace.domain.region.RegionDto;
-import com.cnu.swacademy.whereplace.domain.user.User;
 import com.cnu.swacademy.whereplace.domain.user.UserDto;
 import lombok.*;
 
@@ -63,9 +62,9 @@ public class PostDto {
         private LocalDateTime postedDate;
         private int postLike;
         private RegionDto.Response regionDto;
-        private List<CommentDto.Response> commentDtos;
-        private List<PostTagDto.Response> tagDtos;
-        private List<PostImageDto.Response> imageDtos;
+        private List<Comment> commentDtos;
+        private List<PostTag> tagDtos;
+        private List<PostImage> imageDtos;
 
         // Entity -> Dto
         public Response(Post post) {
@@ -77,10 +76,10 @@ public class PostDto {
             this.regionDto = new RegionDto.Response(post.getRegion());
             try {
                 if (!commentDtos.isEmpty()) {
-                    this.commentDtos = post.getComments().stream().map(CommentDto.Response::new).collect(Collectors.toList());
+                    this.commentDtos = post.getComments().stream().map(Comment::new).collect(Collectors.toList());
                 }
                 if (!tagDtos.isEmpty()) {
-                    this.tagDtos = post.getTags().stream().map(PostTagDto.Response::new).collect(Collectors.toList());
+                    this.tagDtos = post.getTags().stream().map(PostTag::new).collect(Collectors.toList());
                 }
             } catch (Exception e) {
 

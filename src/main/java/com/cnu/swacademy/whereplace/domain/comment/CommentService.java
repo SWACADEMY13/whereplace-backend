@@ -8,14 +8,14 @@ import com.cnu.swacademy.whereplace.domain.user.UserDto;
 import com.cnu.swacademy.whereplace.domain.user.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommentService {
@@ -26,49 +26,72 @@ public class CommentService {
     private UserService userService;
 
     @Autowired
-    private CommentRepository commentRepository;
+    private CommentRepository repository;
 
     @Autowired
     private ModelMapper modelMapper;
 
     public Comment save(CommentDto.Request givenRequestCommentDto){
         Comment comment=toEntity(givenRequestCommentDto);
+
         User mappedUser=userService.find(givenRequestCommentDto.getCommentedUserId());
-        Post mappedPost=postService.find(givenRequestCommentDto.getCommentedPostId());
+        Post mappedPost=postService.find(givenRequestCommentDto.getPostCommentId());
+
+        PostDto.Response mappedPostDto=postService.toDto(mappedPost); // Entity to DTO
+        UserDto.Response mappedUserDto=userService.toDto(mappedUser);  // Entity to DTO
+
+        mappedPostDto.getCommentDtos().add(comment); // One to Many add
+        mappedUserDto.getComments().add(comment); // One to Many add
+
+        postService.save(mappedPostDto); // DTO to Entity, and update & persist
 
         comment.setCommentedUser(mappedUser);
         comment.setPostComment(mappedPost);
         comment.setPostedDate(LocalDateTime.now());
 
-        return commentRepository.save(comment);
+        return repository.save(comment);
+    }
+
+    public Comment update(CommentDto.Request givenRequestCommentDto){
+        Comment comment=find(givenRequestCommentDto.getCommentId()); // find by id;
+        CommentDto.Response responseCommentDto=toDto(comment); // Entity To DTO
+
+        responseCommentDto.setContent(givenRequestCommentDto.getContent()); // DTO update
+        comment=this.toEntity(responseCommentDto); // DTO to Entity
+
+        return repository.save(comment); // update & persist,
+    }
+
+    public Comment find(int commentId){ // Optional<Comment> to Comment
+        Optional<Comment> comment= repository.findById(commentId);
+        return comment.orElse(null);
+    }
+
+    public List<Comment> findAll(int postId){
+        Post post=postService.find(postId);
+        return post.getComments();
+    }
+
+    @PostMapping("/delete-process")
+    public void delete(int commentId){
+        Comment comment=this.find(commentId);
+        try{
+            repository.delete(comment);
+        }catch(OptimisticLockingFailureException e) {
+            Assert.isTrue(true, " in Comment Service : delete");
+        }
+    }
+
+
+    public Comment toEntity(CommentDto.Response givenRequestUserDto) {
+        return modelMapper.map(givenRequestUserDto, Comment.class);
     }
 
     public Comment toEntity(CommentDto.Request givenRequestUserDto) {
         return modelMapper.map(givenRequestUserDto, Comment.class);
     }
 
-    public List<Comment> showAllComments(int postId){
-        return null;
+    public CommentDto.Response toDto(Comment givenComment){
+        return modelMapper.map(givenComment,CommentDto.Response.class);
     }
-
-    public Post read(int postId){ // 게시판 ID로 DB 조회 후 query 결과 가져옴
-        return null;
-    }
-
-    public Post getPost(Post psot){
-        return null;
-
-    }
-
-    public String update(PostDto postDTO){return null;}
-
-
-
-    /******************** delete ***********************
-     1. 게시판 ID로 DB 조회 후 삭제에 대한 service 실행(delete 등)
-     2. 삭제결과 url 로 이동(게시글 목록 등)
-     ***************************************************/
-
-    @PostMapping("/delete-process")
-    public void delete(int postId){}
 }

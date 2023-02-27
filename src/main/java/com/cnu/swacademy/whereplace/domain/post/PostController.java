@@ -4,6 +4,7 @@ package com.cnu.swacademy.whereplace.domain.post;
 import com.cnu.swacademy.whereplace.domain.user.UserDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -31,8 +32,8 @@ public class PostController {
         1. 게시판 ID로 DB 조회
      *************************************************/
 
-    @GetMapping("/view/*")
-    public String read(int postId){ // 게시판 ID로 DB 조회 후 query 결과 가져옴
+    @GetMapping("/view/{postId}")
+    public String read(@PathVariable int postId){ // 게시판 ID로 DB 조회 후 query 결과 가져옴
         return null;
     }
 
