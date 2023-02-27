@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/whereplace/image/")
-public class ImageController {
+public class ImageUploadController {
 
     @PostMapping("/upload-process")
     public void upload(){}

@@ -14,7 +14,6 @@ import lombok.*;
 @Table(name = "post_image")
 public class PostImage {
     @Id
-    @Column(name = "post_id")
     private int postId;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

@@ -2,7 +2,6 @@ package com.cnu.swacademy.whereplace.domain.user;
 
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -12,14 +11,27 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-//    @Autowired
-//    private ModelMapper modelMapper;
-    @Autowired
-    private UserRepository repository;
+    private final ModelMapper modelMapper;
 
-    public User getUserDto(UserDto.Request givenRequestUserDto) {
-//        return modelMapper.map(givenRequestUserDto, User.class);
-        return givenRequestUserDto.toEntity();
+    private final UserRepository repository;
+
+    public UserService(ModelMapper modelMapper, UserRepository repository) {
+        this.modelMapper = modelMapper;
+        this.repository = repository;
+    }
+
+    public User toEntity(UserDto.Request givenRequestUserDto) {
+        return modelMapper.map(givenRequestUserDto, User.class);
+    }
+
+    public UserDto.Response toDto(User givenUser){
+        return modelMapper.map(givenUser,UserDto.Response.class);
+    }
+
+
+    public User find(String givenUserId){
+        Optional<User> foundUser=repository.findById(givenUserId);
+        return foundUser.orElse(null);
     }
 
     @Transactional

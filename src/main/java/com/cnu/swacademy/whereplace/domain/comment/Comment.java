@@ -25,7 +25,7 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
-    private Post postComment;
+    private Post commentedPost;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
@@ -37,15 +37,7 @@ public class Comment {
     @Column(name = "posted_date", nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime postedDate;
 
-    @Column(name = "commnet_like", nullable = false)
+    @Column(name = "comment_like", nullable = false)
     @ColumnDefault("0")
     private int commentLike;
-    
-//    public void setContent(String content) {
-//        this.content = content;
-//    }
-//
-//    public void setLike(int commentLike) {
-//        this.commentLike = commentLike;
-//    }
 }

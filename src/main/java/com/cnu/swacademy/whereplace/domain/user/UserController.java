@@ -30,11 +30,11 @@ public class UserController {
         Optional<User> user = userService.login(userId, password);
 
         if (user.isPresent()) { // 로그인 성공 시
-            Cookie cookie=new Cookie("userSessionId",session.getId());
+            Cookie cookie=new Cookie("user_session_id",session.getId());
+            cookie.setAttribute("user_id",user.get().getUserId());
             cookie.setMaxAge(1000*60*10); // 1000ms * 60 * 10 = 10m
             session.setMaxInactiveInterval(60*10); // 60s * 10 =10m
             response.addCookie(cookie);
-
             log.info("Login Success: "+user.get().getUserId());
 
             return "redirect:/index.html";
@@ -48,8 +48,8 @@ public class UserController {
 
     @PostMapping("/logout-process")
     public String logout(HttpServletResponse response,Model model,HttpSession session) {
-        Cookie cookie=new Cookie("userSessionId",null);
-
+        Cookie cookie=new Cookie("user_session_id",null);
+        cookie.setAttribute("user_id",null);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
 

@@ -8,38 +8,39 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
 public class PostImageDto {
+
+    @Data
+    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    @Builder
-    @Getter
     public static class Request{
         private int postId;
-        private PostDto.Request postDto;
-        private ImageDto.Request image;
+        private int imageId;
 
-        // Dto -> Entity
-        public PostImage toEntity() {
-            return PostImage.builder()
-                    .postId(postId)
-                    .postImage(postDto.toEntity())
-                    .image(image.toEntity())
-                    .build();
-        }
+//        // Dto -> Entity
+//        public PostImage toEntity() {
+//            return PostImage.builder()
+//                    .postId(postId)
+//                    .postImage(postDto.toEntity())
+//                    .image(image.toEntity())
+//                    .build();
+//        }
     }
 
-    @Getter
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Response{
         private int postId;
-        private PostDto.Response postDto;
-        private ImageDto.Response image;
+        private int imageId;
 
-        // Entity -> Dto
-        public Response(PostImage postImage) {
-            this.postId = postImage.getPostId();
-            this.postDto = new PostDto.Response(postImage.getPostImage());
-            this.image = new ImageDto.Response(postImage.getImage());
-        }
+//        // Entity -> Dto
+//        public Response(PostImage postImage) {
+//            this.postId = postImage.getPostId();
+//            this.postDto = new PostDto.Response(postImage.getPostImage());
+//            this.image = new ImageDto.Response(postImage.getImage());
+//        }
     }
 }

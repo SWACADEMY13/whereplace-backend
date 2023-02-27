@@ -15,7 +15,7 @@ public class UserRegisterController {
 
     @PostMapping("/whereplace/register-process")
     public String register(UserDto.Request requestUserDto){  // 정규식은 미적용
-        User user=userService.getUserDto(requestUserDto);
+        User user=userService.toEntity(requestUserDto);
         userService.save(user);
         return "redirect:/index.html";
     }

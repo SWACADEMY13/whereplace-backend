@@ -23,7 +23,7 @@ public class Region {
     @Column(name = "region_name", nullable = false)
     private String regionName;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
-    private List<Post> posts = new ArrayList<>();
+//    @Builder.Default
+//    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
+//    private List<Post> posts = new ArrayList<>();
 }

@@ -1,17 +1,11 @@
 package com.cnu.swacademy.whereplace.domain.post;
 
 
-import com.cnu.swacademy.whereplace.domain.image.ImageDto;
-import com.cnu.swacademy.whereplace.domain.post_image.PostImageDto;
-import com.cnu.swacademy.whereplace.domain.region.RegionDto;
-import com.cnu.swacademy.whereplace.domain.user.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 // 주석은 개인적인 메모입니당
@@ -20,8 +14,12 @@ import java.util.List;
 @RequestMapping("/whereplace/post")
 public class PostController {
 
+    private final PostService postService;
+
     @Autowired
-    private PostService postService;
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
 
     /******************** create ***********************
      1. 서버 사이드 렌더링 시, html 생성하여 제공
@@ -42,18 +40,10 @@ public class PostController {
     @ResponseBody
     public String createPost(String content){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
         postService.save(PostDto.Request.builder()
-                .postedUserDto(UserDto.Request.builder()
-                        .email("test@gmail.com")
-                        .name("홍길동")
-                        .userId("test")
-                        .password("test123")
-                        .phone("01012345678")
-                        .build())
+                .userId("test")
                 .content(content)
                 .postedDate(LocalDateTime.now())
-                .regionDto(RegionDto.Request.builder()
-                        .regionName("대전")
-                        .build())
+                .regionId(1)
                 .build());
         return "저장 완료"; // 임시 반환값
     }

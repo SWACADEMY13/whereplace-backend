@@ -7,33 +7,23 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
 public class ImageDto {
+
+    @Data
+    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    @Builder
-    @Getter
     public static class Request{
         private int imageId; // AUTO_INCREMENT
         private String image;
-
-        // Dto -> Entity
-        public Image toEntity() {
-            return Image.builder()
-                    .image(image)
-                    .build();
-        }
     }
 
-    @Getter
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Response{
         private int imageId;
         private String image;
-
-        // Entity -> Dto
-        public Response(Image image) {
-            this.imageId = image.getImageId();
-            this.image = image.getImage();
-        }
     }
 }
