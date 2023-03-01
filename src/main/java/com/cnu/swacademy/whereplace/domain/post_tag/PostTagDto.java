@@ -16,17 +16,9 @@ public class PostTagDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request{
+        private int postTagId;
         private int postId;
         private int tagId;
-
-//        // Dto -> Entity
-//        public PostTag toEntity() {
-//            return PostTag.builder()
-//                    .postId(postId)
-//                    .postTag(postDto.toEntity())
-//                    .hashTag(hashTagDto.toEntity())
-//                    .build();
-//        }
     }
 
     @Data
@@ -34,15 +26,9 @@ public class PostTagDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response{
+        private int postTagId;
         private int postId;
         private int tagId;
-
-//        // Entity -> Dto
-//        public Response(PostTag postTag) {
-//            this.postId = postTag.getPostId();
-//            this.postDto = new PostDto.Response(postTag.getPostTag());
-//            this.hashTagDto = new HashTagDto.Response(postTag.getHashTag());
-//        }
     }
 
 }

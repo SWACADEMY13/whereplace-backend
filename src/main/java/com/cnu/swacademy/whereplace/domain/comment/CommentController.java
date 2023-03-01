@@ -26,7 +26,7 @@ public class CommentController {
      *************************************************/
     @PostMapping("/comments/create-process")
     public String create(CommentDto.Request givenRequestCommentDto){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
-        return "/posts/view/"+commentService.save(givenRequestCommentDto).getCommentedPost().getPostId();
+        return "/posts/view/" + commentService.save(givenRequestCommentDto).getCommentedPost().getPostId();
     }
 
     /******************** read ***********************
@@ -47,7 +47,7 @@ public class CommentController {
 
     @PostMapping("/comments/{commentId}/update-process")
     public String modify(CommentDto.Request givenRequestCommentDTO){
-        return "/posts/view/"+commentService.update(givenRequestCommentDTO).getCommentedPost().getPostId();
+        return "/posts/view/" + commentService.update(givenRequestCommentDTO).getCommentedPost().getPostId();
     }
 
 
@@ -59,6 +59,6 @@ public class CommentController {
     @PostMapping("/view/{postId}/comments/{commentId}/delete-process/")
     public String delete(@PathVariable int postId,@PathVariable int commentId){
         commentService.delete(commentId);
-        return "/posts/view/"+postId;
+        return "/posts/view/" + postId;
     }
 }

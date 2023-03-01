@@ -2,19 +2,18 @@ package com.cnu.swacademy.whereplace.domain.post;
 
 import com.cnu.swacademy.whereplace.domain.comment.Comment;
 import com.cnu.swacademy.whereplace.domain.comment.CommentDto;
-import com.cnu.swacademy.whereplace.domain.hashtag.HashTag;
-import com.cnu.swacademy.whereplace.domain.hashtag.HashTagDto;
-import com.cnu.swacademy.whereplace.domain.image.ImageDto;
 import com.cnu.swacademy.whereplace.domain.post_image.PostImageDto;
-import com.cnu.swacademy.whereplace.domain.post_tag.PostTag;
 import com.cnu.swacademy.whereplace.domain.post_tag.PostTagDto;
-import com.cnu.swacademy.whereplace.domain.region.Region;
-import com.cnu.swacademy.whereplace.domain.region.RegionDto;
-import com.cnu.swacademy.whereplace.domain.user.User;
-import com.cnu.swacademy.whereplace.domain.user.UserDto;
+import com.cnu.swacademy.whereplace.domain.region.RegionService;
+import com.cnu.swacademy.whereplace.domain.user.UserService;
+import jakarta.annotation.PostConstruct;
 import lombok.*;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,9 +30,14 @@ public class PostDto {
         private LocalDateTime postedDate;
         private int postLike;
         private int regionId;
-        private List<CommentDto.Request> commentDtos;
-        private List<PostTagDto.Request> tagDtos;
-        private List<PostImageDto.Request> imageDtos; // NOT NULL
+
+        public Post toEntity(UserService userService, RegionService regionService) {
+            ModelMapper modelMapper = new ModelMapper();
+            Post post = modelMapper.map(this, Post.class);
+            post.setPostedUser(userService.find(userId));
+            post.setRegion(regionService.find(regionId));
+            return post;
+        }
     }
 
     @Data
@@ -47,8 +51,16 @@ public class PostDto {
         private LocalDateTime postedDate;
         private int postLike;
         private int regionId;
-        private List<CommentDto.Request> commentDtos;
-        private List<PostTagDto.Request> tagDtos;
-        private List<PostImageDto.Request> imageDtos;
+        private List<Integer> comments;
+        private List<Integer> tags;
+        private List<Integer> images;
+
+        public Post toEntity(UserService userService, RegionService regionService) {
+            ModelMapper modelMapper = new ModelMapper();
+            Post post = modelMapper.map(this, Post.class);
+            post.setPostedUser(userService.find(userId));
+            post.setRegion(regionService.find(regionId));
+            return post;
+        }
     }
 }

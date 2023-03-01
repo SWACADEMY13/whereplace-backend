@@ -1,11 +1,16 @@
 package com.cnu.swacademy.whereplace.domain.user;
 
+import com.cnu.swacademy.whereplace.domain.comment.Comment;
+import com.cnu.swacademy.whereplace.domain.comment.CommentService;
+import com.cnu.swacademy.whereplace.domain.post.Post;
+import com.cnu.swacademy.whereplace.domain.post.PostService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -13,21 +18,26 @@ public class UserService {
 
     private final ModelMapper modelMapper;
 
+    private final CommentService commentService;
+
+    private final PostService postService;
+
     private final UserRepository repository;
 
-    public UserService(ModelMapper modelMapper, UserRepository repository) {
+    public UserService(ModelMapper modelMapper, CommentService commentService, PostService postService, UserRepository repository) {
         this.modelMapper = modelMapper;
+        this.commentService = commentService;
+        this.postService = postService;
         this.repository = repository;
     }
 
-    public User toEntity(UserDto.Request givenRequestUserDto) {
-        return modelMapper.map(givenRequestUserDto, User.class);
-    }
 
     public UserDto.Response toDto(User givenUser){
-        return modelMapper.map(givenUser,UserDto.Response.class);
+        UserDto.Response userDto = modelMapper.map(givenUser,UserDto.Response.class);
+        userDto.setComments(givenUser.getComments().stream().map(Comment::getCommentId).collect(Collectors.toList()));
+        userDto.setPosts(givenUser.getPosts().stream().map(Post::getPostId).collect(Collectors.toList()));
+        return userDto;
     }
-
 
     public User find(String givenUserId){
         Optional<User> foundUser=repository.findById(givenUserId);

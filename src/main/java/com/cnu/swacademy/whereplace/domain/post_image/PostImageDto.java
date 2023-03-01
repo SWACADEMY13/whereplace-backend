@@ -15,17 +15,9 @@ public class PostImageDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request{
+        private int postImageId;
         private int postId;
         private int imageId;
-
-//        // Dto -> Entity
-//        public PostImage toEntity() {
-//            return PostImage.builder()
-//                    .postId(postId)
-//                    .postImage(postDto.toEntity())
-//                    .image(image.toEntity())
-//                    .build();
-//        }
     }
 
     @Data
@@ -33,14 +25,8 @@ public class PostImageDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response{
+        private int postImageId;
         private int postId;
         private int imageId;
-
-//        // Entity -> Dto
-//        public Response(PostImage postImage) {
-//            this.postId = postImage.getPostId();
-//            this.postDto = new PostDto.Response(postImage.getPostImage());
-//            this.image = new ImageDto.Response(postImage.getImage());
-//        }
     }
 }

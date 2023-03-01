@@ -57,16 +57,4 @@ public class Post {
     @Builder.Default
     @OneToMany(mappedBy = "postImage", cascade = CascadeType.ALL)
     private List<PostImage> images = new ArrayList<>();
-
-//    public void setContent(String content) {
-//        this.content = content;
-//    }
-//
-//    public void setLike(int postLike) {
-//        this.postLike = postLike;
-//    }
-
-//    public void setRegionId(int regionId) { // 수정 필요
-//        this.regionId = regionId;
-//    }
 }

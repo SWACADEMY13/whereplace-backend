@@ -42,30 +42,22 @@ public class CommentService {
     public Comment save(CommentDto.Request givenRequestCommentDto){
 
         // DTO -> Entity
-        Comment comment = toEntity(givenRequestCommentDto);
+        Comment comment = givenRequestCommentDto.toEntity();
 
         User mappedUser = userService.find(givenRequestCommentDto.getUserId());
         Post mappedPost = postService.find(givenRequestCommentDto.getPostId());
 
-        // 여기 mappedUser랑 mappedPost 를 다시 DTO로 바꿔서 전달하는 게 좋을지, 그냥 mappedUser, mappedPost로 바로 전달해도 되는지 한 번 박사님께 여쭤보거나 찾아봐야할 것 같아요!
-        // 일단 그냥 더 간단하게 바로 전달하는 걸로 해놨습니다.
-        /*
-        PostDto.Response mappedPostDto = postService.toDto(mappedPost); // Entity to DTO
-        UserDto.Response mappedUserDto = userService.toDto(mappedUser);  // Entity to DTO
 
-        mappedPostDto.getCommentDtos().add(comment); // One to Many add
-        mappedUserDto.getComments().add(comment); // One to Many add
+        PostDto.Response mappedPostDto=postService.toDto(mappedPost); // Entity to DTO
+        UserDto.Response mappedUserDto=userService.toDto(mappedUser);  // Entity to DTO
+
+        mappedPostDto.getComments().add(comment.getCommentId()); // One to Many add
+        mappedUserDto.getComments().add(comment.getCommentId()); // One to Many add
 
         postService.save(mappedPostDto); // DTO to Entity, and update & persist
-        */
-//        postService.save(mappedPost);
 
-        // save 테스트 좀 혀봐, mapper로 바로 User랑 Post 들어가는지,
-//        comment.setCommentedUser(mappedUser);
-//        comment.setCommentedPost(mappedPost);
-        mappedUser.getComments().add(comment);
-        mappedPost.getComments().add(comment);
-
+        comment.setCommentedUser(mappedUser);
+        comment.setCommentedPost(mappedPost);
         comment.setPostedDate(LocalDateTime.now());
 
         return commentRepository.save(comment);
@@ -73,11 +65,10 @@ public class CommentService {
 
     public Comment update(CommentDto.Request givenRequestCommentDto){
         Comment comment = find(givenRequestCommentDto.getCommentId()); // find by id;
+        CommentDto.Response responseCommentDto = toDto(comment); // Entity To DTO
 
-//        CommentDto.Response responseCommentDto=toDto(comment); // Entity To DTO
-//
-//        responseCommentDto.setContent(givenRequestCommentDto.getContent()); // DTO update
-//        comment=this.toEntity(responseCommentDto); // DTO to Entity
+        responseCommentDto.setContent(givenRequestCommentDto.getContent()); // DTO update
+        comment = givenRequestCommentDto.toEntity(); // DTO to Entity
 
         return commentRepository.save(comment); // update & persist,
     }
@@ -92,7 +83,7 @@ public class CommentService {
         return post.getComments();
     }
 
-    @PostMapping("/delete-process") //////////////////////////////////////////// 질문
+    @PostMapping("/delete-process")
     public void delete(int commentId){
         Comment comment = this.find(commentId);
         try {
@@ -100,15 +91,6 @@ public class CommentService {
         } catch (OptimisticLockingFailureException e) {
             Assert.isTrue(true, " in Comment Service : delete");
         }
-    }
-
-
-//    public Comment toEntity(CommentDto.Response givenRequestUserDto) {
-//        return modelMapper.map(givenRequestUserDto, Comment.class);
-//    }
-
-    public Comment toEntity(CommentDto.Request givenRequestUserDto) {
-        return modelMapper.map(givenRequestUserDto, Comment.class);
     }
 
     public CommentDto.Response toDto(Comment givenComment){

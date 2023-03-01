@@ -24,6 +24,11 @@ public class CommentDto {
         private String content;
         private LocalDateTime postedDate;
         private int commentLike;
+
+        public Comment toEntity() {
+            ModelMapper modelMapper = new ModelMapper();
+            return modelMapper.map(this, Comment.class);
+        }
     }
 
     @Data
