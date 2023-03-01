@@ -39,20 +39,4 @@ public class User {
     @Builder.Default
     @OneToMany(mappedBy = "postedUser", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

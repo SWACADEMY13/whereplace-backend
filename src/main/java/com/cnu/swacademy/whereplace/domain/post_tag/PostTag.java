@@ -14,11 +14,11 @@ import lombok.*;
 @Table(name = "post_tag")
 public class PostTag {
     @Id
-    @Column(name = "post_id")
-    private int postId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "post_tag_id")
+    private int postTagId;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @MapsId
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
     private Post postTag;
 

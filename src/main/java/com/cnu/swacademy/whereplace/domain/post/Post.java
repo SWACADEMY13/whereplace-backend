@@ -47,7 +47,7 @@ public class Post {
     private Region region;
 
     @Builder.Default
-    @OneToMany(mappedBy = "postComment", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "commentedPost", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     @Builder.Default
@@ -57,23 +57,4 @@ public class Post {
     @Builder.Default
     @OneToMany(mappedBy = "postImage", cascade = CascadeType.ALL)
     private List<PostImage> images = new ArrayList<>();
-
-//    public void setContent(String content) {
-//        this.content = content;
-//    }
-//
-//    public void setLike(int postLike) {
-//        this.postLike = postLike;
-//    }
-
-//    public void setRegionId(int regionId) { // 수정 필요
-//        this.regionId = regionId;
-//    }
-
-
-    // 글쓰기 임시 test용
-    @Override
-    public String toString() {
-        return "Post{" + "id=" + postId + ", content='" + content + '\'' + '}';
-    } // 수정 필요,,,
 }

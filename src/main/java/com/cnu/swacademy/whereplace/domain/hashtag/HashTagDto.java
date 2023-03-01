@@ -7,33 +7,23 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
 public class HashTagDto {
 
+    @Data
+    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    @Builder
-    @Getter
     public static class Request{
         private int tagId; // AUTO_INCREMENT
         private String tagName;
-
-        // Dto -> Entity
-        public HashTag toEntity() {
-            return HashTag.builder()
-                    .tagName(tagName).build();
-        }
     }
 
-    @Getter
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Response {
-        private Integer tagId;
+        private int tagId;
         private String tagName;
-
-        // Entity -> Dto
-        public Response(HashTag hashTag) {
-            this.tagId = hashTag.getTagId();
-            this.tagName = hashTag.getTagName();
-        }
     }
 }

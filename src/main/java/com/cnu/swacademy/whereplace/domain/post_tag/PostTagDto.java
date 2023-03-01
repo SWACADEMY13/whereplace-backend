@@ -9,39 +9,26 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
 public class PostTagDto {
+
+    @Data
+    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    @Builder
-    @Getter
     public static class Request{
+        private int postTagId;
         private int postId;
-        private PostDto.Request postDto;
-        private HashTagDto.Request hashTagDto;
-
-        // Dto -> Entity
-        public PostTag toEntity() {
-            return PostTag.builder()
-                    .postId(postId)
-                    .postTag(postDto.toEntity())
-                    .hashTag(hashTagDto.toEntity())
-                    .build();
-        }
+        private int tagId;
     }
 
-    @Getter
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Response{
+        private int postTagId;
         private int postId;
-        private PostDto.Response postDto;
-        private HashTagDto.Response hashTagDto;
-
-        // Entity -> Dto
-        public Response(PostTag postTag) {
-            this.postId = postTag.getPostId();
-            this.postDto = new PostDto.Response(postTag.getPostTag());
-            this.hashTagDto = new HashTagDto.Response(postTag.getHashTag());
-        }
+        private int tagId;
     }
 
 }

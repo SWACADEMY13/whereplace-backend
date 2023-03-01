@@ -3,37 +3,49 @@ package com.cnu.swacademy.whereplace.domain.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 
 // 주석은 개인적인 메모입니당
 
 @Controller
-@RequestMapping("/whereplace/posts")
+@RequestMapping("/whereplace/post")
 public class PostController {
 
+    private final PostService postService;
+
     @Autowired
-    private PostService postService;
-
-
-    // 글쓰기 임시 test용
-    @GetMapping("/post/new")
-    public String createPost(PostDto.Request dto) {
-        System.out.println(dto.toString());
-
-        //return postService.save(dto);
-        return dto.toString();
+    public PostController(PostService postService) {
+        this.postService = postService;
     }
 
     /******************** create ***********************
      1. 서버 사이드 렌더링 시, html 생성하여 제공
      2. 프론트 렌터링 시, JSON 제공
      *************************************************/
-    @PostMapping("/create-process")
-    public String create(PostDto postDTO){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
-        return null;
+//    @PostMapping("/new")
+//    public HttpStatus createPost(PostDto.Request dto){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
+//        postService.save(dto);
+//        return HttpStatus.OK; // 임시 반환값
+//    }
+
+    @GetMapping("/new")
+    public String postUpload(){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
+        return "post"; // 임시 반환값
+    }
+
+    @PostMapping("/new")
+    @ResponseBody
+    public String createPost(String content){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
+        postService.save(PostDto.Request.builder()
+                .userId("test")
+                .content(content)
+                .postedDate(LocalDateTime.now())
+                .regionId(1)
+                .build());
+        return "저장 완료"; // 임시 반환값
     }
 
 

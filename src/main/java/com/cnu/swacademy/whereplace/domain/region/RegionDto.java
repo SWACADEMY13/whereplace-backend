@@ -8,34 +8,24 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
 public class RegionDto {
+
+    @Data
+    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    @Builder
-    @Getter
     public static class Request{
         private int regionId; // AUTO_INCREMENT
         private String regionName;
-
-        // Dto -> Entity
-        public Region toEntity() {
-            return Region.builder()
-                    .regionName(regionName)
-                    .build();
-        }
     }
 
-    @Getter
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Response{
         private int regionId;
         private String regionName;
-
-        // Entity -> Dto
-        public Response(Region region) {
-            this.regionId = region.getRegionId();
-            this.regionName = region.getRegionName();
-        }
     }
 
 }

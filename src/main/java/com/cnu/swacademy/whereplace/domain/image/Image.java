@@ -20,6 +20,6 @@ public class Image {
     @Column(name = "image", nullable = false, length = 500)
     private String image;
 
-    @OneToOne(mappedBy = "image", cascade = CascadeType.ALL)
-    private PostImage postImage;
+//    @OneToOne(mappedBy = "image", cascade = CascadeType.ALL)
+//    private PostImage postImage;
 }
