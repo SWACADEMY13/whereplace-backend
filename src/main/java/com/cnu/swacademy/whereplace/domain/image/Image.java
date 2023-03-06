@@ -1,6 +1,5 @@
 package com.cnu.swacademy.whereplace.domain.image;
 
-import com.cnu.swacademy.whereplace.domain.post_image.PostImage;
 import jakarta.persistence.*;
 import lombok.*;
 

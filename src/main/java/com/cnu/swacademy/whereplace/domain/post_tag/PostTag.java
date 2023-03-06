@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,4 +24,18 @@ public class PostTag {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "tag_id", referencedColumnName = "tag_id")
     private HashTag hashTag;
+
+
+    public PostTag(Post postTag, HashTag hashTag) {
+        setMappingInfo(postTag,hashTag);
+    }
+
+    private void setMappingInfo(Post post, HashTag hashTag){
+        this.postTag=post;
+        this.hashTag=hashTag;
+
+        this.getPostTag().getTags().add(this);
+        this.getHashTag().getTags().add(this);
+    }
+
 }

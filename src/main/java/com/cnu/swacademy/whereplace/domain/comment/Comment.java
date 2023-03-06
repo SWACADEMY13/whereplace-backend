@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 
 @DynamicInsert
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,4 +39,28 @@ public class Comment {
     @Column(name = "comment_like", nullable = false)
     @ColumnDefault("0")
     private int commentLike;
+
+
+    public void setPostedDate(LocalDateTime postedDate){
+        this.postedDate=postedDate;
+    }
+
+    public void setContent(String content){
+        this.content=content;
+    }
+
+    public void setMappingInfo(Post commentedPost, User commentedUser){
+        setCommentedUser(commentedUser);
+        setCommentedPost(commentedPost);
+    }
+
+    private void setCommentedPost(Post commentedPost) {
+        this.commentedPost = commentedPost;
+        this.commentedPost.getComments().add(this);
+    }
+
+    private void setCommentedUser(User commentedUser) {
+        this.commentedUser = commentedUser;
+        this.commentedUser.getComments().add(this);
+    }
 }

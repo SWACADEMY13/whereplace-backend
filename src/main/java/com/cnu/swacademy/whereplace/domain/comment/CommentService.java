@@ -22,55 +22,34 @@ import java.util.Optional;
 public class CommentService {
 
     private final PostService postService;
-
     private final UserService userService;
-
     private final CommentRepository commentRepository;
 
-    private final ModelMapper modelMapper;
-
-    @Autowired
-    public CommentService(PostService postService, UserService userService, CommentRepository repository, ModelMapper modelMapper) {
+    public CommentService(PostService postService, UserService userService, CommentRepository repository) {
         this.postService = postService;
         this.userService = userService;
         this.commentRepository = repository;
-        this.modelMapper = modelMapper;
     }
 
 
     @Transactional
-    public Comment save(CommentDto.Request givenRequestCommentDto){
-
+    public int create(CommentDto.Request givenRequestCommentDto){
         // DTO -> Entity
         Comment comment = givenRequestCommentDto.toEntity();
 
-        User mappedUser = userService.find(givenRequestCommentDto.getUserId());
-        Post mappedPost = postService.find(givenRequestCommentDto.getPostId());
+        Post foundPost = postService.find(givenRequestCommentDto.getPostId());
+        User foundUser = userService.find(givenRequestCommentDto.getUserId());
 
-
-        PostDto.Response mappedPostDto=postService.toDto(mappedPost); // Entity to DTO
-        UserDto.Response mappedUserDto=userService.toDto(mappedUser);  // Entity to DTO
-
-        mappedPostDto.getComments().add(comment.getCommentId()); // One to Many add
-        mappedUserDto.getComments().add(comment.getCommentId()); // One to Many add
-
-        postService.save(mappedPostDto); // DTO to Entity, and update & persist
-
-        comment.setCommentedUser(mappedUser);
-        comment.setCommentedPost(mappedPost);
+        comment.setMappingInfo(foundPost,foundUser);
         comment.setPostedDate(LocalDateTime.now());
 
-        return commentRepository.save(comment);
-    }
+        return commentRepository.save(comment).getCommentedPost().getPostId();
+    } // Comment 자체는 페이지가 없으므로 Post 를 redirect 하기 위한 ID 리턴
 
-    public Comment update(CommentDto.Request givenRequestCommentDto){
+    public int update(CommentDto.Request givenRequestCommentDto){
         Comment comment = find(givenRequestCommentDto.getCommentId()); // find by id;
-        CommentDto.Response responseCommentDto = toDto(comment); // Entity To DTO
-
-        responseCommentDto.setContent(givenRequestCommentDto.getContent()); // DTO update
-        comment = givenRequestCommentDto.toEntity(); // DTO to Entity
-
-        return commentRepository.save(comment); // update & persist,
+        comment.setContent(givenRequestCommentDto.getContent());
+        return commentRepository.save(comment).getCommentId(); // update & persist,
     }
 
     public Comment find(int commentId){ // Optional<Comment> to Comment
@@ -91,9 +70,5 @@ public class CommentService {
         } catch (OptimisticLockingFailureException e) {
             Assert.isTrue(true, " in Comment Service : delete");
         }
-    }
-
-    public CommentDto.Response toDto(Comment givenComment){
-        return modelMapper.map(givenComment,CommentDto.Response.class);
     }
 }
