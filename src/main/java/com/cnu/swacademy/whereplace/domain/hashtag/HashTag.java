@@ -26,4 +26,8 @@ public class HashTag {
 //    @Builder.Default
 //    @OneToMany(mappedBy = "hashTag", cascade = CascadeType.ALL)
 //    private List<PostTag> postTags = new ArrayList<>();
+
+    public void setTagName(String tagName){
+        this.tagName=tagName;
+    }
 }

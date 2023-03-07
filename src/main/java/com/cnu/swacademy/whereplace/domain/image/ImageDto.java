@@ -14,7 +14,7 @@ public class ImageDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request{
-        private int imageId; // AUTO_INCREMENT
+        private int postId;
         private String image;
     }
 
@@ -23,7 +23,7 @@ public class ImageDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response{
-        private int imageId;
+        private int postId;
         private String image;
     }
 }

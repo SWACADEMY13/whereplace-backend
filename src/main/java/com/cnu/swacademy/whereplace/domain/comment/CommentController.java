@@ -14,7 +14,6 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @Autowired
     public CommentController(CommentService commentService) {
         this.commentService = commentService;
     }
@@ -26,18 +25,18 @@ public class CommentController {
      *************************************************/
     @PostMapping("/comments/create-process")
     public String create(CommentDto.Request givenRequestCommentDto){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
-        return "/posts/view/" + commentService.save(givenRequestCommentDto).getCommentedPost().getPostId();
+        return "/posts/view/" + commentService.create(givenRequestCommentDto);
     }
 
     /******************** read ***********************
      1. 게시판 ID로 DB 조회
      *************************************************/
 
-    @ResponseBody
-    @GetMapping("/comments/read")
-    public List<Comment> loadAll(PostDto.Request givenRequestPostDto){
-        return commentService.findAll(givenRequestPostDto.getPostId());
-    }
+//    @ResponseBody
+//    @GetMapping("/comments/read")
+//    public List<Comment> loadAll(PostDto.Request givenRequestPostDto){
+//        return commentService.findAll(givenRequestPostDto.getPostId());
+//    }
 
     /******************** update ***********************
      1. 게시판 ID로 DB 조회 후 query 결과로 "작성 단계 페이지"를 렌더링
@@ -47,7 +46,7 @@ public class CommentController {
 
     @PostMapping("/comments/{commentId}/update-process")
     public String modify(CommentDto.Request givenRequestCommentDTO){
-        return "/posts/view/" + commentService.update(givenRequestCommentDTO).getCommentedPost().getPostId();
+        return "/posts/view/" + commentService.update(givenRequestCommentDTO);
     }
 
 
@@ -56,7 +55,7 @@ public class CommentController {
      2. 삭제결과 url 로 이동(게시글 목록 등)
      ***************************************************/
 
-    @PostMapping("/view/{postId}/comments/{commentId}/delete-process/")
+    @PostMapping("/posts/view/{postId}/comments/{commentId}/delete-process/")
     public String delete(@PathVariable int postId,@PathVariable int commentId){
         commentService.delete(commentId);
         return "/posts/view/" + postId;

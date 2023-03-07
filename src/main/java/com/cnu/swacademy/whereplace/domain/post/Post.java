@@ -1,10 +1,11 @@
 package com.cnu.swacademy.whereplace.domain.post;
 
 import com.cnu.swacademy.whereplace.domain.comment.Comment;
-import com.cnu.swacademy.whereplace.domain.post_image.PostImage;
+import com.cnu.swacademy.whereplace.domain.image.Image;
 import com.cnu.swacademy.whereplace.domain.post_tag.PostTag;
 import com.cnu.swacademy.whereplace.domain.region.Region;
 import com.cnu.swacademy.whereplace.domain.user.User;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -43,18 +44,27 @@ public class Post {
     private int postLike;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Nullable
     @JoinColumn(name = "region_id", referencedColumnName = "region_id")
     private Region region;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "commentedPost", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
+//    @Builder.Default
+//    @OneToMany(mappedBy = "commentedPost", cascade = CascadeType.ALL)
+//    private List<Comment> comments = new ArrayList<>();
+//
+//    @Builder.Default
+//    @OneToMany(mappedBy = "postTag", cascade = CascadeType.ALL)
+//    private List<PostTag> tags = new ArrayList<>();
+//
+//    @Builder.Default
+//    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL)
+//    private List<Image> images = new ArrayList<>();
 
-    @Builder.Default
-    @OneToMany(mappedBy = "postTag", cascade = CascadeType.ALL)
-    private List<PostTag> tags = new ArrayList<>();
+    public void setPostedDate(LocalDateTime postedDate){
+        this.postedDate=postedDate;
+    }
 
-    @Builder.Default
-    @OneToMany(mappedBy = "postImage", cascade = CascadeType.ALL)
-    private List<PostImage> images = new ArrayList<>();
+    public void setContent(String content){
+        this.content=content;
+    }
 }

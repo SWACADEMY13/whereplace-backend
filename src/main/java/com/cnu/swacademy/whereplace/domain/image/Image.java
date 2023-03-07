@@ -1,6 +1,6 @@
 package com.cnu.swacademy.whereplace.domain.image;
 
-import com.cnu.swacademy.whereplace.domain.post_image.PostImage;
+import com.cnu.swacademy.whereplace.domain.post.Post;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,9 +13,13 @@ import lombok.*;
 @Table(name = "image")
 public class Image {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "image_id")
-    private int imageId;
+    @Column(name = "post_id")
+    private int postId;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "post_id", referencedColumnName = "post_id")
+    private Post post;
 
     @Column(name = "image", nullable = false, length = 500)
     private String image;

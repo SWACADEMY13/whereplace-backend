@@ -1,11 +1,10 @@
 package com.cnu.swacademy.whereplace.domain.hashtag;
 
-import com.cnu.swacademy.whereplace.domain.comment.Comment;
-import com.cnu.swacademy.whereplace.domain.post.PostDto;
-import com.cnu.swacademy.whereplace.domain.user.UserDto;
-import lombok.*;
-
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 
 public class HashTagDto {
 
@@ -14,8 +13,12 @@ public class HashTagDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request{
-        private int tagId; // AUTO_INCREMENT
         private String tagName;
+
+        public HashTag toEntity(){
+            ModelMapper modelMapper=new ModelMapper();
+            return modelMapper.map(this,HashTag.class);
+        }
     }
 
     @Data

@@ -5,6 +5,7 @@ import com.cnu.swacademy.whereplace.domain.comment.CommentService;
 import com.cnu.swacademy.whereplace.domain.post.Post;
 import com.cnu.swacademy.whereplace.domain.post.PostService;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 
 @Service
+@Slf4j
 public class UserService {
 
     private final ModelMapper modelMapper;
@@ -41,6 +43,7 @@ public class UserService {
 
     public User find(String givenUserId){
         Optional<User> foundUser=repository.findById(givenUserId);
+        log.warn("id : {}",foundUser.get().getUserId());
         return foundUser.orElse(null);
     }
 

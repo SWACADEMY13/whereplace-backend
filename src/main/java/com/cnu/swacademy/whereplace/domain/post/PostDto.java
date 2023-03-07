@@ -1,21 +1,16 @@
 package com.cnu.swacademy.whereplace.domain.post;
 
-import com.cnu.swacademy.whereplace.domain.comment.Comment;
-import com.cnu.swacademy.whereplace.domain.comment.CommentDto;
-import com.cnu.swacademy.whereplace.domain.post_image.PostImageDto;
-import com.cnu.swacademy.whereplace.domain.post_tag.PostTagDto;
+import com.cnu.swacademy.whereplace.domain.hashtag.HashTagDto;
 import com.cnu.swacademy.whereplace.domain.region.RegionService;
 import com.cnu.swacademy.whereplace.domain.user.UserService;
-import jakarta.annotation.PostConstruct;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PostDto {
 
@@ -24,10 +19,11 @@ public class PostDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request{
-        private int postId; // AUTO_INCREMENT
+        //        private int postId;
         private String userId;
         private String content;
         private LocalDateTime postedDate;
+        private List<HashTagDto.Request> hashTags;
         private int postLike;
         private int regionId;
 
@@ -36,6 +32,7 @@ public class PostDto {
             Post post = modelMapper.map(this, Post.class);
             post.setPostedUser(userService.find(userId));
             post.setRegion(regionService.find(regionId));
+            post.setPostedDate(LocalDateTime.now());
             return post;
         }
     }
