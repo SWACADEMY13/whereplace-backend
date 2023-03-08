@@ -48,18 +48,6 @@ public class Post {
     @JoinColumn(name = "region_id", referencedColumnName = "region_id")
     private Region region;
 
-//    @Builder.Default
-//    @OneToMany(mappedBy = "commentedPost", cascade = CascadeType.ALL)
-//    private List<Comment> comments = new ArrayList<>();
-//
-//    @Builder.Default
-//    @OneToMany(mappedBy = "postTag", cascade = CascadeType.ALL)
-//    private List<PostTag> tags = new ArrayList<>();
-//
-//    @Builder.Default
-//    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL)
-//    private List<Image> images = new ArrayList<>();
-
     public void setPostedDate(LocalDateTime postedDate){
         this.postedDate=postedDate;
     }

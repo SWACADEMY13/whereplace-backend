@@ -1,11 +1,13 @@
 package com.cnu.swacademy.whereplace.domain.post;
 
 import com.cnu.swacademy.whereplace.domain.comment.Comment;
+import com.cnu.swacademy.whereplace.domain.comment.CommentDto;
 import com.cnu.swacademy.whereplace.domain.comment.CommentService;
 import com.cnu.swacademy.whereplace.domain.hashtag.HashTag;
 import com.cnu.swacademy.whereplace.domain.hashtag.HashTagDto;
 import com.cnu.swacademy.whereplace.domain.hashtag.HashTagService;
 import com.cnu.swacademy.whereplace.domain.post_tag.PostTagService;
+import com.cnu.swacademy.whereplace.domain.region.Region;
 import com.cnu.swacademy.whereplace.domain.region.RegionService;
 import com.cnu.swacademy.whereplace.domain.user.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,16 +46,14 @@ public class PostService {
         return foundPost.orElse(null);
     }
 
-
     public Post save(PostDto.Request dto) {
         log.warn("DTO INFO : {}",dto.toString());
-        Post post = dto.toEntity(userService, regionService);
+        Post post = dto.toEntity();
         return postRepository.save(post);
     }
 
-    public void createPostTagRelation(int postId,List<HashTagDto.Request> hashTags){
-        Post post=this.find(postId);
-        List<HashTag> listOfHashTags= hashTagService.save(hashTags);
+    public void createPostTagRelation(Post post, List<HashTagDto.Request> hashTags){
+        List<HashTag> listOfHashTags = hashTagService.save(hashTags);
 
         if(!listOfHashTags.isEmpty()) {
             listOfHashTags.forEach(hashTag ->
@@ -61,16 +61,13 @@ public class PostService {
         }
     }
 
-    public Post save(PostDto.Response givenResponsePostDto){
-        Post post = givenResponsePostDto.toEntity(userService, regionService);
-        return postRepository.save(post);
+    public static PostDto.Response toDto(Post post) {
+        return PostDto.Response.builder()
+                .postId(post.getPostId())
+                .userId(post.getPostedUser().getUserId())
+                .content(post.getContent())
+                .postedDate(post.getPostedDate())
+                .postLike(post.getPostLike())
+                .region(RegionService.toDto(post.getRegion())).build();
     }
-
-//    public PostDto.Response toDto(Post givenPost){
-//        PostDto.Response postDto = modelMapper.map(givenPost,PostDto.Response.class);
-//        postDto.setComments(givenPost.getComments().stream().map(Comment::getCommentId).collect(Collectors.toList()));
-//        postDto.setTags(givenPost.getTags().stream().map(postTag -> postTag.getHashTag().getTagId()).collect(Collectors.toList()));
-//        postDto.setImages(givenPost.getImages().stream().map(postImage -> postImage.getImage().set).collect(Collectors.toList()));
-//        return postDto;
-//    }
 }

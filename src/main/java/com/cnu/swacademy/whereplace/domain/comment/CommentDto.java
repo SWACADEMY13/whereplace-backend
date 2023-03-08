@@ -2,6 +2,7 @@ package com.cnu.swacademy.whereplace.domain.comment;
 
 import com.cnu.swacademy.whereplace.domain.post.Post;
 import com.cnu.swacademy.whereplace.domain.post.PostDto;
+import com.cnu.swacademy.whereplace.domain.user.User;
 import com.cnu.swacademy.whereplace.domain.user.UserDto;
 import com.cnu.swacademy.whereplace.domain.user.UserRepository;
 import lombok.*;
@@ -26,8 +27,11 @@ public class CommentDto {
         private int commentLike;
 
         public Comment toEntity() {
-            ModelMapper modelMapper = new ModelMapper();
-            return modelMapper.map(this, Comment.class);
+            return Comment.builder()
+                    .content(content)
+                    .postedDate(postedDate)
+                    .commentLike(commentLike)
+                    .build();
         }
     }
 
@@ -37,8 +41,8 @@ public class CommentDto {
     @NoArgsConstructor
     public static class Response{
         private int commentId;
-        private int postId;
-        private String userId;
+        private Post post;
+        private User user;
         private String content;
         private LocalDateTime postedDate;
         private int commentLike;

@@ -46,6 +46,7 @@ public class CommentService {
         return commentRepository.save(comment).getCommentedPost().getPostId();
     } // Comment 자체는 페이지가 없으므로 Post 를 redirect 하기 위한 ID 리턴
 
+    @Transactional
     public int update(CommentDto.Request givenRequestCommentDto){
         Comment comment = find(givenRequestCommentDto.getCommentId()); // find by id;
         comment.setContent(givenRequestCommentDto.getContent());
@@ -57,13 +58,12 @@ public class CommentService {
         return comment.orElse(null);
     }
 
-    public List<Comment> findAll(int postId){ /* 수정 필요 */
-        Post post = postService.find(postId);
-//        return post.getComments();
-        return null;
+    public List<Comment> findAll(int postId){
+        return commentRepository.findAllByPost_PostId(postId);
     }
 
     @PostMapping("/delete-process")
+    @Transactional
     public void delete(int commentId){
         Comment comment = this.find(commentId);
         try {
@@ -71,5 +71,15 @@ public class CommentService {
         } catch (OptimisticLockingFailureException e) {
             Assert.isTrue(true, " in Comment Service : delete");
         }
+    }
+
+    public static CommentDto.Response toDto(Comment comment) {
+        return CommentDto.Response.builder()
+                .commentId(comment.getCommentId())
+                .post(comment.getCommentedPost())
+                .user(comment.getCommentedUser())
+                .content(comment.getContent())
+                .postedDate(comment.getPostedDate())
+                .commentLike(comment.getCommentLike()).build();
     }
 }

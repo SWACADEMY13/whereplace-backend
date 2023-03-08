@@ -25,8 +25,13 @@ public class UserDto {
         private String email;
 
         public User toEntity() {
-            ModelMapper modelMapper = new ModelMapper();
-            return modelMapper.map(this, User.class);
+            return User.builder()
+                    .userId(userId)
+                    .password(password)
+                    .name(name)
+                    .phone(phone)
+                    .email(email)
+                    .build();
         }
     }
 
@@ -40,7 +45,7 @@ public class UserDto {
         private String name;
         private String phone;
         private String email;
-        private List<Integer> comments;
-        private List<Integer> posts;
+        private List<CommentDto.Response> comments;
+        private List<PostDto.Response> posts;
     }
 }

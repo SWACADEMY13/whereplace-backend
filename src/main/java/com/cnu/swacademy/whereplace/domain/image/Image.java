@@ -13,17 +13,14 @@ import lombok.*;
 @Table(name = "image")
 public class Image {
     @Id
-    @Column(name = "post_id")
-    private int postId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "image_id")
+    private int imageId;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @MapsId
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
     private Post post;
 
     @Column(name = "image", nullable = false, length = 500)
     private String image;
-
-//    @OneToOne(mappedBy = "image", cascade = CascadeType.ALL)
-//    private PostImage postImage;
 }
