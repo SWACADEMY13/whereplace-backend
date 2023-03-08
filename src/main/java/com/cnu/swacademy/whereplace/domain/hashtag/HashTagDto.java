@@ -13,7 +13,6 @@ public class HashTagDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request{
-        private int tagId; // AUTO_INCREMENT
         private String tagName;
 
         public HashTag toEntity(){

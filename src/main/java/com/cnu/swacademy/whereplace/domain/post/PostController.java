@@ -39,6 +39,15 @@ public class PostController {
         return "/whereplace/posts/view/" + post.getPostId();
     }
 
+    @PostMapping("/create-process")
+    public String create(@RequestBody PostDto.Request postDto){
+        Post post=postService.save(postDto);
+        List<HashTagDto.Request> hashTags = postDto.getHashTags();
+        postService.createPostTagRelation(post.getPostId(),hashTags);
+        // 해시태그 생성 및 중간 테이블 생성
+        return "/whereplace/posts/view/"+post.getPostId();
+    }
+
 
     /******************** read ***********************
      1. 게시판 ID로 DB 조회

@@ -15,7 +15,6 @@ import java.util.Objects;
 @Controller
 @RequestMapping(value = "/", headers = "Cache-Control=no-cache, no-store, must-revalidate")
 public class UserSessionController {
-
     public void reminder(HttpServletRequest request, HttpServletResponse response,HttpSession session){ // 페이지 로드마다 로그인 상태를 갱신
         if(Objects.equals(request.getRequestedSessionId(), session.getId())){
             response.setHeader("isLogin","true");

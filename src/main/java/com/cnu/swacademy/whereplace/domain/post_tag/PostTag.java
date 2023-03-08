@@ -25,7 +25,6 @@ public class PostTag {
     @JoinColumn(name = "tag_id", referencedColumnName = "tag_id")
     private HashTag hashTag;
 
-
     public PostTag(Post post, HashTag hashTag) {
         this.postTag = post;
         this.hashTag = hashTag;
