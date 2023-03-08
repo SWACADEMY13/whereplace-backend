@@ -34,18 +34,6 @@ public class UserService {
         this.userRepository = repository;
     }
 
-    public UserDto.Response toDto(User givenUser){
-        return UserDto.Response.builder()
-                .userId(givenUser.getUserId())
-                .password(givenUser.getPassword())
-                .name(givenUser.getName())
-                .phone(givenUser.getPhone())
-                .email(givenUser.getEmail())
-                .comments(givenUser.getComments().stream().map(CommentService::toDto).collect(Collectors.toList()))
-                .posts(givenUser.getPosts().stream().map(PostService::toDto).collect(Collectors.toList()))
-                .build();
-    }
-
     public User find(String givenUserId){
         Optional<User> foundUser = userRepository.findById(givenUserId);
         log.warn("id : {}",foundUser.get().getUserId());
@@ -61,5 +49,17 @@ public class UserService {
     public Optional<User> login(String userId,String password){
         Optional<User> user = userRepository.findById(userId);
         return user.isPresent() && Objects.equals(password, user.get().getPassword()) ? user : Optional.empty();
+    }
+
+    public static UserDto.Response toDto(User givenUser){
+        return UserDto.Response.builder()
+                .userId(givenUser.getUserId())
+                .password(givenUser.getPassword())
+                .name(givenUser.getName())
+                .phone(givenUser.getPhone())
+                .email(givenUser.getEmail())
+                .comments(givenUser.getComments().stream().map(CommentService::toDto).collect(Collectors.toList()))
+                .posts(givenUser.getPosts().stream().map(PostService::toDto).collect(Collectors.toList()))
+                .build();
     }
 }
