@@ -29,28 +29,14 @@ public class PostController {
      1. 서버 사이드 렌더링 시, html 생성하여 제공
      2. 프론트 렌터링 시, JSON 제공
      *************************************************/
-//    @PostMapping("/new")
-//    public HttpStatus createPost(PostDto.Request dto){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
-//        postService.save(dto);
-//        return HttpStatus.OK; // 임시 반환값
-//    }
 
-    @GetMapping("/new")
-    public String postUpload(){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
-        return "post"; // 임시 반환값
-    }
-
-    @PostMapping("/new")
-    @ResponseBody
-    public String createPost(String content){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
-        postService.save(PostDto.Request.builder()
-                .userId("test")
-                .content(content)
-                .postedDate(LocalDateTime.now())
-                .regionId(1)
-                .build());
-
-        return "저장 완료"; // 임시 반환값
+    @PostMapping("/create-process")
+    public String create(@RequestBody PostDto.Request postDto){
+        Post post = postService.save(postDto);
+        List<HashTagDto.Request> hashTags = postDto.getHashTags();
+        postService.createPostTagRelation(post,hashTags);
+        // 해시태그 생성 및 중간 테이블 생성
+        return "/whereplace/posts/view/" + post.getPostId();
     }
 
     @PostMapping("/create-process")

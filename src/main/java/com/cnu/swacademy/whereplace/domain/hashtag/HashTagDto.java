@@ -16,8 +16,9 @@ public class HashTagDto {
         private String tagName;
 
         public HashTag toEntity(){
-            ModelMapper modelMapper=new ModelMapper();
-            return modelMapper.map(this,HashTag.class);
+            return HashTag.builder()
+                    .tagName(tagName)
+                    .build();
         }
     }
 

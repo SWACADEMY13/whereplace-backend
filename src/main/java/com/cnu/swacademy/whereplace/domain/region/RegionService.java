@@ -7,4 +7,11 @@ public class RegionService {
     public Region find(int regionId) {
         return null;
     }
+
+    public static RegionDto.Response toDto(Region region) {
+        return RegionDto.Response.builder()
+                .regionId(region.getRegionId())
+                .regionName(region.getRegionName())
+                .build();
+    }
 }

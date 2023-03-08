@@ -40,13 +40,12 @@ public class Comment {
     @ColumnDefault("0")
     private int commentLike;
 
-
     public void setPostedDate(LocalDateTime postedDate){
-        this.postedDate=postedDate;
+        this.postedDate = postedDate;
     }
 
     public void setContent(String content){
-        this.content=content;
+        this.content = content;
     }
 
     public void setMappingInfo(Post commentedPost, User commentedUser){
@@ -56,7 +55,6 @@ public class Comment {
 
     private void setCommentedPost(Post commentedPost) {
         this.commentedPost = commentedPost;
-        this.commentedPost.getComments().add(this);
     }
 
     private void setCommentedUser(User commentedUser) {

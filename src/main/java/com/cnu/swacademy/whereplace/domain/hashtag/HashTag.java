@@ -22,13 +22,7 @@ public class HashTag {
     @Column(name = "tag_name", nullable = false, length = 45)
     private String tagName;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "hashTag", cascade = CascadeType.ALL)
-    private List<PostTag> tags = new ArrayList<>();
-
     public void setTagName(String tagName){
         this.tagName=tagName;
     }
-
-
 }
