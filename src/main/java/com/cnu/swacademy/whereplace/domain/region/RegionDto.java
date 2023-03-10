@@ -15,7 +15,7 @@ public class RegionDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request{
-        private int regionId; // AUTO_INCREMENT
+        private Integer regionId; // AUTO_INCREMENT
         private String regionName;
     }
 
@@ -24,7 +24,7 @@ public class RegionDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response{
-        private int regionId;
+        private Integer regionId;
         private String regionName;
     }
 
