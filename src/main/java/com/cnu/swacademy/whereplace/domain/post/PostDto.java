@@ -20,19 +20,17 @@ public class PostDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request{
-        private int postId;
+        private Integer postId;
         private String userId;
         private String content;
         private LocalDateTime postedDate;
         private List<HashTagDto.Request> hashTags;
-        private int postLike;
-        private int regionId;
+        private Integer postLike;
+        private Integer regionId;
 
         public Post toEntity() {
             return Post.builder()
                     .content(content)
-                    .postedDate(postedDate)
-                    .postLike(postLike)
                     .build();
         }
     }
@@ -42,11 +40,11 @@ public class PostDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response{
-        private int postId;
+        private Integer postId;
         private String userId;
         private String content;
         private LocalDateTime postedDate;
-        private int postLike;
+        private Integer postLike;
         private RegionDto.Response region;
         private List<Integer> comments;
         private List<Integer> tags;

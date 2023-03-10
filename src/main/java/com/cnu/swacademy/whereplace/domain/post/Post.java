@@ -48,6 +48,11 @@ public class Post {
     @JoinColumn(name = "region_id", referencedColumnName = "region_id")
     private Region region;
 
+    public void setPostedUser(User postedUser) {
+        this.postedUser = postedUser;
+        this.postedUser.getPosts().add(this);
+    }
+
     public void setPostedDate(LocalDateTime postedDate){
         this.postedDate=postedDate;
     }

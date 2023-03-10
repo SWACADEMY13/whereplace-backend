@@ -22,7 +22,7 @@ public class HashTagController {
 
     @PostMapping("/create-process")
     public String create(Model model, @RequestBody List<HashTagDto.Request> hashTags){
-        hashTagService.save(hashTags);
+        hashTagService.create(hashTags);
         model.addAttribute("hashTags",hashTagService.findHashTagIdAll(hashTags));
         return "/whereplace/";
     }

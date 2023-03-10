@@ -33,12 +33,12 @@ public class CommentService {
 
 
     @Transactional
-    public int create(CommentDto.Request givenRequestCommentDto){
+    public int create(CommentDto.Request dto){
         // DTO -> Entity
-        Comment comment = givenRequestCommentDto.toEntity();
+        Comment comment = dto.toEntity();
 
-        Post foundPost = postService.find(givenRequestCommentDto.getPostId());
-        User foundUser = userService.find(givenRequestCommentDto.getUserId());
+        Post foundPost = postService.find(dto.getPostId());
+        User foundUser = userService.find(dto.getUserId());
 
         comment.setMappingInfo(foundPost,foundUser);
         comment.setPostedDate(LocalDateTime.now());
@@ -47,9 +47,9 @@ public class CommentService {
     } // Comment 자체는 페이지가 없으므로 Post 를 redirect 하기 위한 ID 리턴
 
     @Transactional
-    public int update(CommentDto.Request givenRequestCommentDto){
-        Comment comment = find(givenRequestCommentDto.getCommentId()); // find by id;
-        comment.setContent(givenRequestCommentDto.getContent());
+    public int update(CommentDto.Request dto){
+        Comment comment = find(dto.getCommentId()); // find by id;
+        comment.setContent(dto.getContent());
         return commentRepository.save(comment).getCommentId(); // update & persist,
     }
 
@@ -59,10 +59,9 @@ public class CommentService {
     }
 
     public List<Comment> findAll(int postId){
-        return commentRepository.findAllByPost_PostId(postId);
+        return commentRepository.findAllByCommentedPost_PostId(postId);
     }
 
-    @PostMapping("/delete-process")
     @Transactional
     public void delete(int commentId){
         Comment comment = this.find(commentId);

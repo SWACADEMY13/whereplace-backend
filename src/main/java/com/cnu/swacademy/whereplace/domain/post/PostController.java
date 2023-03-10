@@ -32,10 +32,8 @@ public class PostController {
 
     @PostMapping("/create-process")
     public String create(@RequestBody PostDto.Request postDto){
-        Post post = postService.save(postDto);
-        List<HashTagDto.Request> hashTags = postDto.getHashTags();
-        postService.createPostTagRelation(post,hashTags);
-        // 해시태그 생성 및 중간 테이블 생성
+        Post post = postService.create(postDto);
+
         return "/whereplace/posts/view/" + post.getPostId();
     }
 

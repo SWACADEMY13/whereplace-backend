@@ -19,18 +19,16 @@ public class CommentDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request{
-        private int commentId; // AUTO_INCREMENT
-        private int postId;
+        private Integer commentId; // AUTO_INCREMENT
+        private Integer postId;
         private String userId;
         private String content;
         private LocalDateTime postedDate;
-        private int commentLike;
+        private Integer commentLike;
 
         public Comment toEntity() {
             return Comment.builder()
                     .content(content)
-                    .postedDate(postedDate)
-                    .commentLike(commentLike)
                     .build();
         }
     }
@@ -40,11 +38,11 @@ public class CommentDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response{
-        private int commentId;
+        private Integer commentId;
         private Post post;
         private User user;
         private String content;
         private LocalDateTime postedDate;
-        private int commentLike;
+        private Integer commentLike;
     }
 }

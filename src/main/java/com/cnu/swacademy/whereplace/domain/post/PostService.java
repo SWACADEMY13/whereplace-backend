@@ -9,13 +9,17 @@ import com.cnu.swacademy.whereplace.domain.hashtag.HashTagService;
 import com.cnu.swacademy.whereplace.domain.post_tag.PostTagService;
 import com.cnu.swacademy.whereplace.domain.region.Region;
 import com.cnu.swacademy.whereplace.domain.region.RegionService;
+import com.cnu.swacademy.whereplace.domain.user.User;
 import com.cnu.swacademy.whereplace.domain.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,16 +50,56 @@ public class PostService {
         return foundPost.orElse(null);
     }
 
-    public Post save(PostDto.Request dto) {
+    @Transactional
+    public Post create(PostDto.Request dto) {
+
         log.warn("DTO INFO : {}",dto.toString());
         Post post = dto.toEntity();
+
+        User user = userService.find(dto.getUserId());
+        Region region = regionService.find(dto.getRegionId());
+
+        post.setPostedUser(user);
+        post.setRegion(region);
+        post.setPostedDate(LocalDateTime.now());
+
+        List<HashTagDto.Request> hashTags = dto.getHashTags();
+        createPostTagRelation(post,hashTags);
+        // 해시태그 생성 및 중간 테이블 생성
+
         return postRepository.save(post);
     }
 
-    public void createPostTagRelation(Post post, List<HashTagDto.Request> hashTags){
-        List<HashTag> listOfHashTags = hashTagService.save(hashTags);
+    @Transactional
+    public Post update(PostDto.Request dto) {
+        Post post = find(dto.getPostId());
 
-        if(!listOfHashTags.isEmpty()) {
+        post.setContent(dto.getContent());
+
+        /// PostTagService 의 update 메소드로 빼도 될 것 같음. ///
+        postTagService.delete(post);                      ///
+        createPostTagRelation(post, dto.getHashTags());   ///
+        /////////////////////////////////////////////////////
+
+        post.setRegion(regionService.find(dto.getRegionId()));
+
+        return postRepository.save(post);
+    }
+
+    @Transactional
+    public void delete(int postId) {
+        Post post = this.find(postId);
+        try {
+            postRepository.delete(post);
+        } catch (OptimisticLockingFailureException e) {
+            Assert.isTrue(true, " in Post Service : delete");
+        }
+    }
+
+    public void createPostTagRelation(Post post, List<HashTagDto.Request> hashTags){
+        List<HashTag> listOfHashTags = hashTagService.create(hashTags); // 게시글에서 사용하는 해시태그 생성
+
+        if (!listOfHashTags.isEmpty()) {
             listOfHashTags.forEach(hashTag ->
                     postTagService.create(post, hashTag));
         }
