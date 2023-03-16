@@ -1,11 +1,11 @@
 package com.cnu.swacademy.whereplace.domain.post;
 
-import com.cnu.swacademy.whereplace.domain.comment.Comment;
-import com.cnu.swacademy.whereplace.domain.comment.CommentDto;
 import com.cnu.swacademy.whereplace.domain.comment.CommentService;
 import com.cnu.swacademy.whereplace.domain.hashtag.HashTag;
 import com.cnu.swacademy.whereplace.domain.hashtag.HashTagDto;
 import com.cnu.swacademy.whereplace.domain.hashtag.HashTagService;
+import com.cnu.swacademy.whereplace.domain.image.Image;
+import com.cnu.swacademy.whereplace.domain.image.ImageService;
 import com.cnu.swacademy.whereplace.domain.post_tag.PostTagService;
 import com.cnu.swacademy.whereplace.domain.region.Region;
 import com.cnu.swacademy.whereplace.domain.region.RegionService;
@@ -13,7 +13,6 @@ import com.cnu.swacademy.whereplace.domain.user.User;
 import com.cnu.swacademy.whereplace.domain.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,18 +29,18 @@ public class PostService {
 
     private final UserService userService;
     private final RegionService regionService;
-    private final HashTagService hashTagService;
     private final PostTagService postTagService;
-    private final ModelMapper modelMapper;
+    private final ImageService imageService;
+    private final CommentService commentService;
     private final PostRepository postRepository;
 
 
-    public PostService(UserService userService, RegionService regionService, HashTagService hashTagService, PostTagService postTagService, ModelMapper modelMapper, PostRepository postRepository) {
+    public PostService(UserService userService, RegionService regionService, PostTagService postTagService, ImageService imageService, CommentService commentService, PostRepository postRepository) {
         this.userService = userService;
         this.regionService = regionService;
-        this.hashTagService = hashTagService;
         this.postTagService = postTagService;
-        this.modelMapper = modelMapper;
+        this.imageService = imageService;
+        this.commentService = commentService;
         this.postRepository = postRepository;
     }
 
@@ -64,8 +63,13 @@ public class PostService {
         post.setPostedDate(LocalDateTime.now());
 
         List<HashTagDto.Request> hashTags = dto.getHashTags();
-        createPostTagRelation(post,hashTags);
+        postTagService.create(post,hashTags);
         // 해시태그 생성 및 중간 테이블 생성
+
+        List<Image> images = dto.getImages().stream()
+                .map(imageDto -> imageService.create(post, imageDto)).collect(Collectors.toList());
+
+        post.setImages(images);
 
         return postRepository.save(post);
     }
@@ -78,8 +82,16 @@ public class PostService {
 
         /// PostTagService 의 update 메소드로 빼도 될 것 같음. ///
         postTagService.delete(post);                      ///
-        createPostTagRelation(post, dto.getHashTags());   ///
+        postTagService.create(post, dto.getHashTags());   ///
         /////////////////////////////////////////////////////
+
+
+        /// ImageService 의 update 메소드로 빼도 될 것 같음. /////////////////////////////////////////////
+        imageService.delete(post);
+        List<Image> images = dto.getImages().stream()
+                .map(imageDto -> imageService.create(post, imageDto)).collect(Collectors.toList());
+        post.setImages(images);
+        //////////////////////////////////////////////////////////////////////////////////////////////
 
         post.setRegion(regionService.find(dto.getRegionId()));
 
@@ -91,17 +103,12 @@ public class PostService {
         Post post = this.find(postId);
         try {
             postRepository.delete(post);
+            commentService.delete(post);
+            imageService.delete(post);
+            postTagService.delete(post);
+            // User 의 posts 에서도 빼야함.
         } catch (OptimisticLockingFailureException e) {
             Assert.isTrue(true, " in Post Service : delete");
-        }
-    }
-
-    public void createPostTagRelation(Post post, List<HashTagDto.Request> hashTags){
-        List<HashTag> listOfHashTags = hashTagService.create(hashTags); // 게시글에서 사용하는 해시태그 생성
-
-        if (!listOfHashTags.isEmpty()) {
-            listOfHashTags.forEach(hashTag ->
-                    postTagService.create(post, hashTag));
         }
     }
 

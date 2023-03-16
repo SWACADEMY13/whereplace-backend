@@ -48,6 +48,11 @@ public class Post {
     @JoinColumn(name = "region_id", referencedColumnName = "region_id")
     private Region region;
 
+    // 추가
+    @Builder.Default
+    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL)
+    private List<Image> images = new ArrayList<>();
+
     public void setPostedUser(User postedUser) {
         this.postedUser = postedUser;
         this.postedUser.getPosts().add(this);
