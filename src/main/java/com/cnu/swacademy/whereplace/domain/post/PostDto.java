@@ -1,6 +1,7 @@
 package com.cnu.swacademy.whereplace.domain.post;
 
 import com.cnu.swacademy.whereplace.domain.hashtag.HashTagDto;
+import com.cnu.swacademy.whereplace.domain.image.ImageDto;
 import com.cnu.swacademy.whereplace.domain.region.RegionDto;
 import com.cnu.swacademy.whereplace.domain.region.RegionService;
 import com.cnu.swacademy.whereplace.domain.user.UserService;
@@ -27,6 +28,7 @@ public class PostDto {
         private List<HashTagDto.Request> hashTags;
         private Integer postLike;
         private Integer regionId;
+        private List<ImageDto.Request> images;
 
         public Post toEntity() {
             return Post.builder()

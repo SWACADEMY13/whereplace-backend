@@ -67,9 +67,15 @@ public class CommentService {
         Comment comment = this.find(commentId);
         try {
             commentRepository.delete(comment);
+            // User 의 comments 에서도 빼야함.
         } catch (OptimisticLockingFailureException e) {
             Assert.isTrue(true, " in Comment Service : delete");
         }
+    }
+
+    @Transactional
+    public void delete(Post post) {
+        commentRepository.deleteAllByCommentedPost_PostId(post.getPostId());
     }
 
     public static CommentDto.Response toDto(Comment comment) {
