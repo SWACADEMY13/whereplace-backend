@@ -31,16 +31,14 @@ public class PostService {
     private final RegionService regionService;
     private final PostTagService postTagService;
     private final ImageService imageService;
-    private final CommentService commentService;
     private final PostRepository postRepository;
 
 
-    public PostService(UserService userService, RegionService regionService, PostTagService postTagService, ImageService imageService, CommentService commentService, PostRepository postRepository) {
+    public PostService(UserService userService, RegionService regionService, PostTagService postTagService, ImageService imageService, PostRepository postRepository) {
         this.userService = userService;
         this.regionService = regionService;
         this.postTagService = postTagService;
         this.imageService = imageService;
-        this.commentService = commentService;
         this.postRepository = postRepository;
     }
 
@@ -103,7 +101,7 @@ public class PostService {
         Post post = this.find(postId);
         try {
             postRepository.delete(post);
-            commentService.delete(post);
+//            commentService.delete(post);
             imageService.delete(post);
             postTagService.delete(post);
             // User 의 posts 에서도 빼야함.

@@ -19,18 +19,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UserService {
 
-    private final ModelMapper modelMapper;
-
-    private final CommentService commentService;
-
-    private final PostService postService;
-
     private final UserRepository userRepository;
 
-    public UserService(ModelMapper modelMapper, CommentService commentService, PostService postService, UserRepository repository) {
-        this.modelMapper = modelMapper;
-        this.commentService = commentService;
-        this.postService = postService;
+    public UserService(UserRepository repository) {
         this.userRepository = repository;
     }
 
