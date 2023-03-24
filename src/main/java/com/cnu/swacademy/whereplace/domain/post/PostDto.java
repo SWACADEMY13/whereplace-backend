@@ -23,17 +23,20 @@ public class PostDto {
     public static class Request{
         private Integer postId;
         private String userId;
-        private String content;
-        private LocalDateTime postedDate;
-        private List<HashTagDto.Request> hashTags;
-        private Integer postLike;
+        private String content; // nullable
+        private List<HashTagDto.Request> hashTags; // nullable
         private Integer regionId;
         private List<ImageDto.Request> images;
 
         public Post toEntity() {
-            return Post.builder()
-                    .content(content)
-                    .build();
+            if (content != null) {
+                return Post.builder()
+                        .content(content)
+                        .build();
+            }
+            else {
+                return Post.builder().build();
+            }
         }
     }
 
