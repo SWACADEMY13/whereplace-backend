@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 @Slf4j
 @RequestMapping("/posts")
@@ -17,13 +20,19 @@ public class PostController {
         this.postService = postService;
     }
 
+    @GetMapping("/")
+    public List<PostDto.Response> readAll() {
+        List<Post> posts = postService.findAll();
+        return posts.stream().map(PostService::toDto).collect(Collectors.toList());
+    }
+
     /******************** create ***********************
      1. 서버 사이드 렌더링 시, html 생성하여 제공
      2. 프론트 렌터링 시, JSON 제공
      *************************************************/
 
     @PostMapping("/write")
-    public String create(@RequestBody PostDto.Request postDto){
+    public String create(@RequestBody PostDto.Request postDto) {
         Post post = postService.create(postDto);
 
         return "redirect:/posts/" + post.getPostId();
@@ -33,8 +42,9 @@ public class PostController {
      1. 게시판 ID로 DB 조회
      *************************************************/
 
+    @ResponseBody
     @GetMapping("/{postId}")
-    public PostDto.Response read(@PathVariable int postId){ // 게시판 ID로 DB 조회 후 query 결과 가져옴
+    public PostDto.Response read(@PathVariable int postId) { // 게시판 ID로 DB 조회 후 query 결과 가져옴
         Post post = postService.find(postId);
 
         return PostService.toDto(post);
@@ -46,8 +56,8 @@ public class PostController {
      3. 수정 후 렌더링
      ***************************************************/
 
-    @PostMapping("/edit")
-    public String update(@RequestBody PostDto.Request postDto){
+    @PostMapping("/{postId}/edit")
+    public String update(@RequestBody PostDto.Request postDto) {
         Post post = postService.update(postDto);
 
         return "redirect:/posts/" + post.getPostId();
@@ -58,10 +68,10 @@ public class PostController {
      2. 삭제결과 url 로 이동(게시글 목록 등)
      ***************************************************/
 
-    @DeleteMapping("/edit/delete")
-    public String delete(int postId) {
+    @DeleteMapping("/{postId}/edit/delete") // 수정페이지에서 '삭제' 선택
+    public String delete(@PathVariable int postId) {
         postService.delete(postId);
 
-        return "redirect:/profiles/";
+        return "redirect:/profiles/"; // 프로필로 돌아가기, 나중에 URL 수정
     }
 }

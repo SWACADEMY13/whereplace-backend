@@ -1,9 +1,11 @@
 package com.cnu.swacademy.whereplace.domain.post;
 
+import com.cnu.swacademy.whereplace.domain.comment.CommentDto;
 import com.cnu.swacademy.whereplace.domain.hashtag.HashTagDto;
 import com.cnu.swacademy.whereplace.domain.image.ImageDto;
 import com.cnu.swacademy.whereplace.domain.region.RegionDto;
 import com.cnu.swacademy.whereplace.domain.region.RegionService;
+import com.cnu.swacademy.whereplace.domain.user.User;
 import com.cnu.swacademy.whereplace.domain.user.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +15,7 @@ import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public class PostDto {
 
@@ -23,15 +26,15 @@ public class PostDto {
     public static class Request{
         private Integer postId;
         private String userId;
-        private String content; // nullable
+        private Optional<String> content = Optional.empty(); // nullable
         private List<HashTagDto.Request> hashTags; // nullable
         private Integer regionId;
         private List<ImageDto.Request> images;
 
         public Post toEntity() {
-            if (content != null) {
+            if (content.isPresent()) {
                 return Post.builder()
-                        .content(content)
+                        .content(content.get())
                         .build();
             }
             else {
@@ -46,13 +49,13 @@ public class PostDto {
     @NoArgsConstructor
     public static class Response{
         private Integer postId;
-        private String userId;
+        private User postedUser;
         private String content;
         private LocalDateTime postedDate;
         private Integer postLike;
         private RegionDto.Response region;
-        private List<Integer> comments;
-        private List<Integer> tags;
-        private List<Integer> images;
+        private List<CommentDto.Response> comments;
+        private List<HashTagDto.Response> tags;
+        private List<ImageDto.Response> images;
     }
 }

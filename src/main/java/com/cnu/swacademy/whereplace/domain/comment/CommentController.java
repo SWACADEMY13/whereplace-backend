@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/whereplace")
+@RequestMapping("/post/{postId}/comments") // url 이 이렇게 되는 게 더 자연스러운 것 같아서 일단 수정해봤습니다!
 public class CommentController {
 
     private final CommentService commentService;
@@ -23,9 +23,9 @@ public class CommentController {
      1. 서버 사이드 렌더링 시, html 생성하여 제공(타임리프)
      2. 프론트 렌터링 시, JSON 제공
      *************************************************/
-    @PostMapping("/comments/create-process")
+    @PostMapping("/write")
     public String create(CommentDto.Request givenRequestCommentDto){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
-        return "/posts/view/" + commentService.create(givenRequestCommentDto);
+        return "redirect:/posts/" + commentService.create(givenRequestCommentDto);
     }
 
     /******************** read ***********************
@@ -33,7 +33,7 @@ public class CommentController {
      *************************************************/
 
 //    @ResponseBody
-//    @GetMapping("/comments/read")
+//    @GetMapping("/comments/read") // 댓글은 게시글 조회에 같이 조회해야 돼서 따로 URL 요청이 필요할 것 같진 않아서 주석처리 했습니당
 //    public List<Comment> loadAll(PostDto.Request givenRequestPostDto){
 //        return commentService.findAll(givenRequestPostDto.getPostId());
 //    }
@@ -44,9 +44,9 @@ public class CommentController {
      3. 수정 후 렌더링
      ***************************************************/
 
-    @PostMapping("/comments/{commentId}/update-process")
+    @PostMapping("/{commentId}/edit")
     public String modify(CommentDto.Request givenRequestCommentDTO){
-        return "/posts/view/" + commentService.update(givenRequestCommentDTO);
+        return "redirect:/posts/" + commentService.update(givenRequestCommentDTO);
     }
 
 
@@ -55,9 +55,9 @@ public class CommentController {
      2. 삭제결과 url 로 이동(게시글 목록 등)
      ***************************************************/
 
-    @PostMapping("/posts/view/{postId}/comments/{commentId}/delete-process/")
-    public String delete(@PathVariable int postId,@PathVariable int commentId){
+    @PostMapping("/{commentId}/edit/delete/")
+    public String delete(@PathVariable int postId, @PathVariable int commentId){
         commentService.delete(commentId);
-        return "/posts/view/" + postId;
+        return "redirect:/posts/" + postId;
     }
 }

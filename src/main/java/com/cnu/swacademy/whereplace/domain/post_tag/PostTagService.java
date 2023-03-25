@@ -29,6 +29,7 @@ public class PostTagService {
             listOfHashTags.forEach(hashTag -> {
                 PostTag postTag = new PostTag(post, hashTag);
                 postTagRepository.save(postTag);
+                post.getPostTags().add(postTag);
             });
         }
     }

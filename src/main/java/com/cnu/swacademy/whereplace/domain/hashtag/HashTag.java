@@ -23,6 +23,6 @@ public class HashTag {
     private String tagName;
 
     public void setTagName(String tagName){
-        this.tagName=tagName;
+        this.tagName = tagName;
     }
 }
