@@ -16,7 +16,7 @@ public class ImageDto {
     @NoArgsConstructor
     public static class Request{
         private Integer imageId;
-        private Integer postId;
+//        private Integer postId;
         private String image;
 
         public Image toEntity() {
@@ -32,7 +32,7 @@ public class ImageDto {
     @NoArgsConstructor
     public static class Response{
         private Integer imageId;
-        private Post post;
+//        private Post post;
         private String image;
     }
 }

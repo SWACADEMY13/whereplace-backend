@@ -37,7 +37,6 @@ public class ImageService {
     public static ImageDto.Response toDto(Image image) {
         return ImageDto.Response.builder()
                 .imageId(image.getImageId())
-                .post(image.getPost())
                 .image(image.getImage()).build();
     }
 }

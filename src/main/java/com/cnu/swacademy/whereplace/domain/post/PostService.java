@@ -1,7 +1,6 @@
 package com.cnu.swacademy.whereplace.domain.post;
 
 import com.cnu.swacademy.whereplace.domain.comment.CommentService;
-import com.cnu.swacademy.whereplace.domain.hashtag.HashTag;
 import com.cnu.swacademy.whereplace.domain.hashtag.HashTagDto;
 import com.cnu.swacademy.whereplace.domain.hashtag.HashTagService;
 import com.cnu.swacademy.whereplace.domain.image.Image;
@@ -12,7 +11,7 @@ import com.cnu.swacademy.whereplace.domain.region.RegionService;
 import com.cnu.swacademy.whereplace.domain.user.User;
 import com.cnu.swacademy.whereplace.domain.user.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +26,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PostService {
 
+    @Autowired
+    private static CommentService commentService;
     private final UserService userService;
     private final RegionService regionService;
     private final PostTagService postTagService;
@@ -47,6 +48,10 @@ public class PostService {
         return foundPost.orElse(null);
     }
 
+    public List<Post> findAll() {
+        return postRepository.findAll();
+    }
+
     @Transactional
     public Post create(PostDto.Request dto) {
 
@@ -60,9 +65,11 @@ public class PostService {
         post.setRegion(region);
         post.setPostedDate(LocalDateTime.now());
 
-        List<HashTagDto.Request> hashTags = dto.getHashTags();
-        postTagService.create(post,hashTags);
-        // 해시태그 생성 및 중간 테이블 생성
+        if (!dto.getHashTags().isEmpty()) {
+            List<HashTagDto.Request> hashTags = dto.getHashTags();
+            postTagService.create(post,hashTags);
+            // 해시태그 생성 및 중간 테이블 생성
+        }
 
         List<Image> images = dto.getImages().stream()
                 .map(imageDto -> imageService.create(post, imageDto)).collect(Collectors.toList());
@@ -76,12 +83,16 @@ public class PostService {
     public Post update(PostDto.Request dto) {
         Post post = find(dto.getPostId());
 
-        post.setContent(dto.getContent());
+        if (dto.getContent().isPresent()) {
+            post.setContent(dto.getContent().get());
+        }
 
-        /// PostTagService 의 update 메소드로 빼도 될 것 같음. ///
-        postTagService.delete(post);                      ///
-        postTagService.create(post, dto.getHashTags());   ///
-        /////////////////////////////////////////////////////
+        if (!dto.getHashTags().isEmpty()) {
+            /// PostTagService 의 update 메소드로 빼도 될 것 같음. ///
+            postTagService.delete(post);                      ///
+            postTagService.create(post, dto.getHashTags());   ///
+            /////////////////////////////////////////////////////
+        }
 
 
         /// ImageService 의 update 메소드로 빼도 될 것 같음. /////////////////////////////////////////////
@@ -101,7 +112,7 @@ public class PostService {
         Post post = this.find(postId);
         try {
             postRepository.delete(post);
-//            commentService.delete(post);
+            commentService.delete(post);
             imageService.delete(post);
             postTagService.delete(post);
             // User 의 posts 에서도 빼야함.
@@ -111,12 +122,17 @@ public class PostService {
     }
 
     public static PostDto.Response toDto(Post post) {
-        return PostDto.Response.builder()
+        PostDto.Response postDto = PostDto.Response.builder()
                 .postId(post.getPostId())
-                .userId(post.getPostedUser().getUserId())
+                .postedUser(post.getPostedUser())
                 .content(post.getContent())
                 .postedDate(post.getPostedDate())
                 .postLike(post.getPostLike())
-                .region(RegionService.toDto(post.getRegion())).build();
+                .region(RegionService.toDto(post.getRegion()))
+                .tags(post.getPostTags().stream().map(postTag -> HashTagService.toDto(postTag.getHashTag())).collect(Collectors.toList()))
+                .images(post.getImages().stream().map(ImageService::toDto).collect(Collectors.toList()))
+                .build();
+        postDto.setComments(commentService.findAll(post.getPostId()).stream().map(CommentService::toDto).collect(Collectors.toList()));
+        return postDto;
     }
 }

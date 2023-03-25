@@ -50,6 +50,10 @@ public class Post {
 
     // 추가
     @Builder.Default
+    @OneToMany(mappedBy = "postTag", cascade = CascadeType.ALL)
+    private List<PostTag> postTags = new ArrayList<>();
+
+    @Builder.Default
     @OneToMany(mappedBy = "image", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();
 
@@ -59,10 +63,10 @@ public class Post {
     }
 
     public void setPostedDate(LocalDateTime postedDate){
-        this.postedDate=postedDate;
+        this.postedDate = postedDate;
     }
 
     public void setContent(String content){
-        this.content=content;
+        this.content = content;
     }
 }
