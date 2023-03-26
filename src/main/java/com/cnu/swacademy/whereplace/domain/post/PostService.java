@@ -1,6 +1,7 @@
 package com.cnu.swacademy.whereplace.domain.post;
 
 import com.cnu.swacademy.whereplace.domain.comment.CommentService;
+import com.cnu.swacademy.whereplace.domain.hashtag.HashTag;
 import com.cnu.swacademy.whereplace.domain.hashtag.HashTagDto;
 import com.cnu.swacademy.whereplace.domain.hashtag.HashTagService;
 import com.cnu.swacademy.whereplace.domain.image.Image;
@@ -33,14 +34,16 @@ public class PostService {
     private final PostTagService postTagService;
     private final ImageService imageService;
     private final PostRepository postRepository;
+    private final HashTagService hashTagService;
 
 
-    public PostService(UserService userService, RegionService regionService, PostTagService postTagService, ImageService imageService, PostRepository postRepository) {
+    public PostService(UserService userService, RegionService regionService, PostTagService postTagService, ImageService imageService, PostRepository postRepository, HashTagService hashTagService) {
         this.userService = userService;
         this.regionService = regionService;
         this.postTagService = postTagService;
         this.imageService = imageService;
         this.postRepository = postRepository;
+        this.hashTagService = hashTagService;
     }
 
     public Post find(int givenPostId){
@@ -58,7 +61,7 @@ public class PostService {
         log.warn("DTO INFO : {}",dto.toString());
         Post post = dto.toEntity();
 
-        User user = userService.find(dto.getUserId());
+        User user = userService.find(dto.getUsername());
         Region region = regionService.find(dto.getRegionId());
 
         post.setPostedUser(user);
@@ -118,6 +121,15 @@ public class PostService {
             // User 의 posts 에서도 빼야함.
         } catch (OptimisticLockingFailureException e) {
             Assert.isTrue(true, " in Post Service : delete");
+        }
+    }
+
+    public void createPostTagRelation(Post post, List<HashTagDto.Request> hashTags){
+        List<HashTag> listOfHashTags = hashTagService.create(hashTags); // 게시글에서 사용하는 해시태그 생성
+
+        if (!listOfHashTags.isEmpty()) {
+            listOfHashTags.forEach(hashTag ->
+                    postTagService.create(post, hashTags));
         }
     }
 

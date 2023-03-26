@@ -1,18 +1,13 @@
 package com.cnu.swacademy.whereplace.domain.comment;
 
 import com.cnu.swacademy.whereplace.domain.post.Post;
-import com.cnu.swacademy.whereplace.domain.post.PostDto;
 import com.cnu.swacademy.whereplace.domain.post.PostService;
 import com.cnu.swacademy.whereplace.domain.user.User;
-import com.cnu.swacademy.whereplace.domain.user.UserDto;
 import com.cnu.swacademy.whereplace.domain.user.UserService;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,7 +33,7 @@ public class CommentService {
         Comment comment = dto.toEntity();
 
         Post foundPost = postService.find(dto.getPostId());
-        User foundUser = userService.find(dto.getUserId());
+        User foundUser = userService.find(dto.getUsername());
 
         comment.setMappingInfo(foundPost,foundUser);
         comment.setPostedDate(LocalDateTime.now());

@@ -1,5 +1,6 @@
 package com.cnu.swacademy.whereplace.domain.post;
 
+import com.cnu.swacademy.whereplace.domain.hashtag.HashTagDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,12 +33,16 @@ public class PostController {
      *************************************************/
 
     @PostMapping("/write")
-    public String create(@RequestBody PostDto.Request postDto) {
+    @ResponseBody
+    public Post create(@RequestBody PostDto.Request postDto){
         Post post = postService.create(postDto);
 
-        return "redirect:/posts/" + post.getPostId();
-    }
+        List<HashTagDto.Request> hashTags = postDto.getHashTags();
+        if(hashTags!=null)
+            postService.createPostTagRelation(post,hashTags);
 
+        return post;
+    }
     /******************** read ***********************
      1. 게시판 ID로 DB 조회
      *************************************************/

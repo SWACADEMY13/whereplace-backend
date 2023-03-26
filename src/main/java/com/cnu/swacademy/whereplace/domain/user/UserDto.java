@@ -1,14 +1,12 @@
 package com.cnu.swacademy.whereplace.domain.user;
 
-import com.cnu.swacademy.whereplace.domain.comment.Comment;
 import com.cnu.swacademy.whereplace.domain.comment.CommentDto;
-import com.cnu.swacademy.whereplace.domain.post.Post;
 import com.cnu.swacademy.whereplace.domain.post.PostDto;
-import lombok.*;
-import org.modelmapper.ModelMapper;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserDto {
@@ -18,7 +16,7 @@ public class UserDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request{
-        private String userId;
+        private String username;
         private String password;
         private String name;
         private String phone;
@@ -26,7 +24,7 @@ public class UserDto {
 
         public User toEntity() {
             return User.builder()
-                    .userId(userId)
+                    .username(username)
                     .password(password)
                     .name(name)
                     .phone(phone)
@@ -40,8 +38,8 @@ public class UserDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response{
-        private String userId;
-        private String password;
+        private Long userId;
+        private String username;
         private String name;
         private String phone;
         private String email;

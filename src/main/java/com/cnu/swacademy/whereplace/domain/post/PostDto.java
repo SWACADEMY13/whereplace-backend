@@ -25,7 +25,7 @@ public class PostDto {
     @NoArgsConstructor
     public static class Request{
         private Integer postId;
-        private String userId;
+        private String username;
         private Optional<String> content = Optional.empty(); // nullable
         private List<HashTagDto.Request> hashTags; // nullable
         private Integer regionId;

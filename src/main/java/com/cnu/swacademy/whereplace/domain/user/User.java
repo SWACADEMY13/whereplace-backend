@@ -17,8 +17,12 @@ import java.util.List;
 @Table(name = "user")
 public class User {
     @Id
-    @Column(name = "user_id")
-    private String userId;
+    @Column(name="user_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long userId;
+
+    @Column(name = "username",nullable = false, length = 20)
+    private String username;
 
     @Column(name = "password", nullable = false, length = 20)
     private String password;

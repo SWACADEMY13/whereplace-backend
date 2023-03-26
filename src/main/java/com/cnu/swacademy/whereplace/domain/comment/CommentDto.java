@@ -1,14 +1,11 @@
 package com.cnu.swacademy.whereplace.domain.comment;
 
 import com.cnu.swacademy.whereplace.domain.post.Post;
-import com.cnu.swacademy.whereplace.domain.post.PostDto;
 import com.cnu.swacademy.whereplace.domain.user.User;
-import com.cnu.swacademy.whereplace.domain.user.UserDto;
-import com.cnu.swacademy.whereplace.domain.user.UserRepository;
-import lombok.*;
-import org.apache.coyote.Response;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -21,7 +18,7 @@ public class CommentDto {
     public static class Request{
         private Integer commentId; // AUTO_INCREMENT
         private Integer postId;
-        private String userId;
+        private String username;
         private String content;
         private LocalDateTime postedDate;
         private Integer commentLike;
