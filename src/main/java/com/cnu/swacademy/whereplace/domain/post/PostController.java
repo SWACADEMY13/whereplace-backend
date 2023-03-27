@@ -21,7 +21,6 @@ public class PostController {
         this.postService = postService;
     }
 
-    @ResponseBody
     @GetMapping("/")
     public List<PostDto.Response> readAll() {
         List<Post> posts = postService.findAll();
