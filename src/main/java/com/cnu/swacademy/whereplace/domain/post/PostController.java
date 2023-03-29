@@ -78,6 +78,6 @@ public class PostController {
     public String delete(@PathVariable int postId) {
         postService.delete(postId);
 
-        return "redirect:/profiles/"; // 프로필로 돌아가기, 나중에 URL 수정
+        return "일단 done"; // 프로필로 돌아가기, 나중에 URL 수정
     }
 }

@@ -1,7 +1,6 @@
 package com.cnu.swacademy.whereplace.domain.post;
 
 import com.cnu.swacademy.whereplace.domain.comment.CommentService;
-import com.cnu.swacademy.whereplace.domain.hashtag.HashTag;
 import com.cnu.swacademy.whereplace.domain.hashtag.HashTagDto;
 import com.cnu.swacademy.whereplace.domain.hashtag.HashTagService;
 import com.cnu.swacademy.whereplace.domain.image.Image;
@@ -11,11 +10,7 @@ import com.cnu.swacademy.whereplace.domain.region.Region;
 import com.cnu.swacademy.whereplace.domain.region.RegionService;
 import com.cnu.swacademy.whereplace.domain.user.User;
 import com.cnu.swacademy.whereplace.domain.user.UserService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +26,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class PostService {
 
-    @Autowired
-    private static CommentService commentService;
+//    private final CommentService commentService;
     private final UserService userService;
     private final RegionService regionService;
     private final PostTagService postTagService;
@@ -42,6 +36,7 @@ public class PostService {
 
 
     public PostService(UserService userService, RegionService regionService, PostTagService postTagService, ImageService imageService, PostRepository postRepository, HashTagService hashTagService) {
+//        this.commentService = commentService;
         this.userService = userService;
         this.regionService = regionService;
         this.postTagService = postTagService;
@@ -119,11 +114,10 @@ public class PostService {
     public void delete(int postId) {
         Post post = this.find(postId);
         try {
-            postRepository.delete(post);
-            commentService.delete(post);
+//            commentService.delete(post);
             imageService.delete(post);
             postTagService.delete(post);
-            // User 의 posts 에서도 빼야함.
+            postRepository.delete(post);
         } catch (OptimisticLockingFailureException e) {
             Assert.isTrue(true, " in Post Service : delete");
         }
