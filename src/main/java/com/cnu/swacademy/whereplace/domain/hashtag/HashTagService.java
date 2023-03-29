@@ -69,7 +69,7 @@ public class HashTagService {
         return hashTagMap;
     }
 
-    public static HashTagDto.Response toDto(HashTag hashTag) {
+    public HashTagDto.Response toDto(HashTag hashTag) {
         return HashTagDto.Response.builder()
                 .tagId(hashTag.getTagId())
                 .tagName(hashTag.getTagName())

@@ -25,7 +25,7 @@ public class PostController {
     @GetMapping("/")
     public List<PostDto.Response> readAll() {
         List<Post> posts = postService.findAll();
-        return posts.stream().map(PostService::toDto).collect(Collectors.toList());
+        return posts.stream().map(postService::toDto).collect(Collectors.toList());
     }
 
     /******************** create ***********************
@@ -34,16 +34,16 @@ public class PostController {
      *************************************************/
 
     @PostMapping("/write")
-    @ResponseBody
-    public Post create(@RequestBody PostDto.Request postDto){
+    public String create(@RequestBody PostDto.Request postDto){
         Post post = postService.create(postDto);
 
-        List<HashTagDto.Request> hashTags = postDto.getHashTags();
-        if(hashTags!=null)
-            postService.createPostTagRelation(post,hashTags);
+//        List<HashTagDto.Request> hashTags = postDto.getHashTags();
+//        if(hashTags!=null)
+//            postService.createPostTagRelation(post,hashTags);
 
-        return post;
+        return "redirect:/posts/" + post.getPostId();
     }
+
     /******************** read ***********************
      1. 게시판 ID로 DB 조회
      *************************************************/
@@ -53,7 +53,7 @@ public class PostController {
     public PostDto.Response read(@PathVariable int postId) { // 게시판 ID로 DB 조회 후 query 결과 가져옴
         Post post = postService.find(postId);
 
-        return PostService.toDto(post);
+        return postService.toDto(post);
     }
 
     /******************** update ***********************

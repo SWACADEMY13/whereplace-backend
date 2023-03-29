@@ -43,7 +43,7 @@ public class Post {
     @ColumnDefault("0")
     private int postLike;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Nullable
     @JoinColumn(name = "region_id", referencedColumnName = "region_id")
     private Region region;
@@ -59,7 +59,7 @@ public class Post {
 
     public void setPostedUser(User postedUser) {
         this.postedUser = postedUser;
-        this.postedUser.getPosts().add(this);
+//        this.postedUser.getPosts().add(this);
     }
 
     public void setPostedDate(LocalDateTime postedDate){

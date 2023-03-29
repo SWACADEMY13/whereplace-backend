@@ -6,6 +6,7 @@ import com.cnu.swacademy.whereplace.domain.image.ImageDto;
 import com.cnu.swacademy.whereplace.domain.region.RegionDto;
 import com.cnu.swacademy.whereplace.domain.region.RegionService;
 import com.cnu.swacademy.whereplace.domain.user.User;
+import com.cnu.swacademy.whereplace.domain.user.UserDto;
 import com.cnu.swacademy.whereplace.domain.user.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,8 +27,12 @@ public class PostDto {
     public static class Request{
         private Integer postId;
         private String username;
+        @Builder.Default
         private Optional<String> content = Optional.empty(); // nullable
-        private List<HashTagDto.Request> hashTags; // nullable
+        @Builder.Default
+        private int postLike = 0;
+        @Builder.Default
+        private List<HashTagDto.Request> hashTags = List.of(); // nullable
         private Integer regionId;
         private List<ImageDto.Request> images;
 
@@ -49,12 +54,13 @@ public class PostDto {
     @NoArgsConstructor
     public static class Response{
         private Integer postId;
-        private User postedUser;
+        private UserDto.Response postedUser;
         private String content;
         private LocalDateTime postedDate;
         private Integer postLike;
         private RegionDto.Response region;
-        private List<CommentDto.Response> comments;
+        @Builder.Default
+        private List<CommentDto.Response> comments = List.of(); // nullable
         private List<HashTagDto.Response> tags;
         private List<ImageDto.Response> images;
     }

@@ -21,7 +21,8 @@ public class CommentDto {
         private String username;
         private String content;
         private LocalDateTime postedDate;
-        private Integer commentLike;
+        @Builder.Default
+        private Integer commentLike = 0;
 
         public Comment toEntity() {
             return Comment.builder()
