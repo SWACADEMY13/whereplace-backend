@@ -34,7 +34,7 @@ public class ImageService {
         imageRepository.deleteAllByPost_PostId(post.getPostId());
     }
 
-    public static ImageDto.Response toDto(Image image) {
+    public ImageDto.Response toDto(Image image) {
         return ImageDto.Response.builder()
                 .imageId(image.getImageId())
                 .image(image.getImage()).build();

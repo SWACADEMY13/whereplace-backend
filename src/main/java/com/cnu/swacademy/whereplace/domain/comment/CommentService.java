@@ -45,6 +45,7 @@ public class CommentService {
     public int update(CommentDto.Request dto){
         Comment comment = find(dto.getCommentId()); // find by id;
         comment.setContent(dto.getContent());
+        comment.setCommentLike(dto.getCommentLike());
         return commentRepository.save(comment).getCommentId(); // update & persist,
     }
 
@@ -73,13 +74,15 @@ public class CommentService {
         commentRepository.deleteAllByCommentedPost_PostId(post.getPostId());
     }
 
-    public static CommentDto.Response toDto(Comment comment) {
+    public CommentDto.Response toDto(Comment comment) {
+        Comment pComment = find(comment.getCommentId());
+
         return CommentDto.Response.builder()
-                .commentId(comment.getCommentId())
-                .post(comment.getCommentedPost())
-                .user(comment.getCommentedUser())
-                .content(comment.getContent())
-                .postedDate(comment.getPostedDate())
-                .commentLike(comment.getCommentLike()).build();
+                .commentId(pComment.getCommentId())
+                .post(pComment.getCommentedPost())
+                .user(pComment.getCommentedUser())
+                .content(pComment.getContent())
+                .postedDate(pComment.getPostedDate())
+                .commentLike(pComment.getCommentLike()).build();
     }
 }

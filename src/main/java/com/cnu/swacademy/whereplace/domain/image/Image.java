@@ -17,7 +17,7 @@ public class Image {
     @Column(name = "image_id")
     private int imageId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
     private Post post;
 

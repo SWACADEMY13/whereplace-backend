@@ -36,11 +36,11 @@ public class User {
     @Column(name = "email", nullable = false, length = 30)
     private String email;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "commentedUser", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "postedUser", cascade = CascadeType.ALL)
-    private List<Post> posts = new ArrayList<>();
+//    @Builder.Default
+//    @OneToMany(mappedBy = "commentedUser", cascade = CascadeType.ALL)
+//    private List<Comment> comments = new ArrayList<>();
+//
+//    @Builder.Default
+//    @OneToMany(mappedBy = "postedUser", cascade = CascadeType.ALL)
+//    private List<Post> posts = new ArrayList<>();
 }

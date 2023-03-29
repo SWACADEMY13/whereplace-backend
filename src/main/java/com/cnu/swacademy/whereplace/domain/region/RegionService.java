@@ -1,17 +1,26 @@
 package com.cnu.swacademy.whereplace.domain.region;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RegionService {
-    public Region find(int regionId) {
-        return null;
+    private final RegionRepository regionRepository;
+
+    public RegionService(RegionRepository regionRepository) {
+        this.regionRepository = regionRepository;
     }
 
-    public static RegionDto.Response toDto(Region region) {
+    public Region find(int regionId) {
+        return regionRepository.findById(regionId).orElse(null);
+    }
+
+    public RegionDto.Response toDto(Region region) {
+        Region pRegion = find(region.getRegionId());
+
         return RegionDto.Response.builder()
-                .regionId(region.getRegionId())
-                .regionName(region.getRegionName())
+                .regionId(pRegion.getRegionId())
+                .regionName(pRegion.getRegionName())
                 .build();
     }
 }

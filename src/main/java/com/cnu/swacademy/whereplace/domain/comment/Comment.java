@@ -22,11 +22,11 @@ public class Comment {
     @Column(name = "comment_id")
     private int commentId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
     private Post commentedPost;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User commentedUser;
 
@@ -48,6 +48,10 @@ public class Comment {
         this.content = content;
     }
 
+    public void setCommentLike(int commentLike) {
+        this.commentLike = commentLike;
+    }
+
     public void setMappingInfo(Post commentedPost, User commentedUser){
         setCommentedUser(commentedUser);
         setCommentedPost(commentedPost);
@@ -59,6 +63,6 @@ public class Comment {
 
     private void setCommentedUser(User commentedUser) {
         this.commentedUser = commentedUser;
-        this.commentedUser.getComments().add(this);
+//        this.commentedUser.getComments().add(this);
     }
 }

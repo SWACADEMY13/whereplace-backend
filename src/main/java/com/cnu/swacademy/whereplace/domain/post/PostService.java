@@ -11,6 +11,9 @@ import com.cnu.swacademy.whereplace.domain.region.Region;
 import com.cnu.swacademy.whereplace.domain.region.RegionService;
 import com.cnu.swacademy.whereplace.domain.user.User;
 import com.cnu.swacademy.whereplace.domain.user.UserService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -25,6 +28,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@Transactional
 public class PostService {
 
     @Autowired
@@ -106,6 +110,7 @@ public class PostService {
         //////////////////////////////////////////////////////////////////////////////////////////////
 
         post.setRegion(regionService.find(dto.getRegionId()));
+        post.setPostLike(dto.getPostLike());
 
         return postRepository.save(post);
     }
@@ -124,27 +129,29 @@ public class PostService {
         }
     }
 
-    public void createPostTagRelation(Post post, List<HashTagDto.Request> hashTags){
-        List<HashTag> listOfHashTags = hashTagService.create(hashTags); // 게시글에서 사용하는 해시태그 생성
+//    public void createPostTagRelation(Post post, List<HashTagDto.Request> hashTags){
+//        List<HashTag> listOfHashTags = hashTagService.create(hashTags); // 게시글에서 사용하는 해시태그 생성
+//
+//        if (!listOfHashTags.isEmpty()) {
+//            listOfHashTags.forEach(hashTag ->
+//                    postTagService.create(post, hashTags));
+//        }
+//    }
 
-        if (!listOfHashTags.isEmpty()) {
-            listOfHashTags.forEach(hashTag ->
-                    postTagService.create(post, hashTags));
-        }
-    }
+    public PostDto.Response toDto(Post post) {
+        Post pPost = find(post.getPostId());
 
-    public static PostDto.Response toDto(Post post) {
         PostDto.Response postDto = PostDto.Response.builder()
-                .postId(post.getPostId())
-                .postedUser(post.getPostedUser())
-                .content(post.getContent())
-                .postedDate(post.getPostedDate())
-                .postLike(post.getPostLike())
-                .region(RegionService.toDto(post.getRegion()))
-                .tags(post.getPostTags().stream().map(postTag -> HashTagService.toDto(postTag.getHashTag())).collect(Collectors.toList()))
-                .images(post.getImages().stream().map(ImageService::toDto).collect(Collectors.toList()))
+                .postId(pPost.getPostId())
+                .postedUser(userService.toDto(pPost.getPostedUser()))
+                .content(pPost.getContent())
+                .postedDate(pPost.getPostedDate())
+                .postLike(pPost.getPostLike())
+                .region(regionService.toDto(pPost.getRegion()))
+                .tags(pPost.getPostTags().stream().map(postTag -> hashTagService.toDto(postTag.getHashTag())).collect(Collectors.toList()))
+                .images(pPost.getImages().stream().map(imageService::toDto).collect(Collectors.toList()))
                 .build();
-        postDto.setComments(commentService.findAll(post.getPostId()).stream().map(CommentService::toDto).collect(Collectors.toList()));
+        //postDto.setComments(commentService.findAll(post.getPostId()).stream().map(CommentService::toDto).collect(Collectors.toList()));
         return postDto;
     }
 }

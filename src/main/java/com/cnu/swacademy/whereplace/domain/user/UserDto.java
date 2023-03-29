@@ -43,7 +43,5 @@ public class UserDto {
         private String name;
         private String phone;
         private String email;
-        private List<CommentDto.Response> comments;
-        private List<PostDto.Response> posts;
     }
 }
