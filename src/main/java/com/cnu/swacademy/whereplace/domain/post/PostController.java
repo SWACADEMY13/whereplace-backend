@@ -79,6 +79,6 @@ public class PostController { // test 완료
     public String delete(@PathVariable int postId) {
         postService.delete(postId);
 
-        return ""; // 프로필로 돌아가기, 나중에 URL 수정
+        return "redirect:/posts/"; // 프로필로 돌아가기, 나중에 URL 수정
     }
 }

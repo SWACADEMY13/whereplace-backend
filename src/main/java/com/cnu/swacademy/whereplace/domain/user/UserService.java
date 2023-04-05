@@ -29,7 +29,7 @@ public class UserService {
 
     public User findByUserName(String givenUserName){
         Optional<User> foundUser = userRepository.findByNickname(givenUserName);
-        log.warn("id : {}",foundUser.get().getNickname());
+//        log.warn("id : {}",foundUser.get().getNickname());
         return foundUser.orElse(null);
     }
 

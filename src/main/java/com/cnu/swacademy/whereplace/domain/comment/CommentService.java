@@ -4,6 +4,7 @@ import com.cnu.swacademy.whereplace.domain.post.Post;
 import com.cnu.swacademy.whereplace.domain.post.PostService;
 import com.cnu.swacademy.whereplace.domain.user.User;
 import com.cnu.swacademy.whereplace.domain.user.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class CommentService {
 
     private final PostService postService;
@@ -31,6 +33,7 @@ public class CommentService {
     @Transactional
     public Comment create(CommentDto.Request dto){
         // DTO -> Entity
+        log.warn("DTO INFO : {}",dto.toString());
         Comment comment = dto.toEntity();
 
         Post foundPost = postService.findById(dto.getPostId());
