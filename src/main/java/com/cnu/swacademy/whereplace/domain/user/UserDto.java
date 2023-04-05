@@ -16,7 +16,7 @@ public class UserDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Request{
-        private String username;
+        private String nickname;
         private String password;
         private String name;
         private String phone;
@@ -24,7 +24,7 @@ public class UserDto {
 
         public User toEntity() {
             return User.builder()
-                    .username(username)
+                    .nickname(nickname)
                     .password(password)
                     .name(name)
                     .phone(phone)
@@ -39,7 +39,7 @@ public class UserDto {
     @NoArgsConstructor
     public static class Response{
         private Long userId;
-        private String username;
+        private String nickname;
         private String name;
         private String phone;
         private String email;

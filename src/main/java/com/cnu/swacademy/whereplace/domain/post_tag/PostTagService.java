@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostTagService {
@@ -35,7 +36,11 @@ public class PostTagService {
     }
 
     @Transactional
-    public void delete(Post post) {
-        postTagRepository.deleteAllByPostTag_PostId(post.getPostId());
+    public void deleteAllByPostId(int postId) {
+        postTagRepository.deleteAllByPost_PostId(postId);
+    }
+
+    public List<HashTagDto.Response> toDtos(List<PostTag> postTags) {
+        return postTags.stream().map(postTag -> hashTagService.toDto(postTag.getHashTag())).collect(Collectors.toList());
     }
 }

@@ -21,8 +21,4 @@ public class HashTag {
 
     @Column(name = "tag_name", nullable = false, length = 45)
     private String tagName;
-
-    public void setTagName(String tagName){
-        this.tagName = tagName;
-    }
 }

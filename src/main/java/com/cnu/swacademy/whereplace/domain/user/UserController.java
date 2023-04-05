@@ -31,11 +31,11 @@ public class UserController {
 
         if (user.isPresent()) { // 로그인 성공 시
             Cookie cookie=new Cookie("user_session_id",session.getId());
-            cookie.setAttribute("username",user.get().getUsername());
+            cookie.setAttribute("username",user.get().getNickname());
             cookie.setMaxAge(1000*60*10); // 1000ms * 60 * 10 = 10m
             session.setMaxInactiveInterval(60*10); // 60s * 10 =10m
             response.addCookie(cookie);
-            log.info("Login Success: "+user.get().getUsername());
+            log.info("Login Success: "+user.get().getNickname());
 
             return "redirect:/index.html";
         }

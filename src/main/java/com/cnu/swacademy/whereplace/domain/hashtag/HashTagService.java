@@ -21,7 +21,7 @@ public class HashTagService {
 
     private final HashTagRepository hashTagRepository;
 
-    private Map<String,Integer> hashTagMap;
+    private final Map<String,Integer> hashTagMap;
 
     @Autowired
     public HashTagService(HashTagRepository hashTagRepository) {
@@ -60,14 +60,14 @@ public class HashTagService {
         return hashTags;
     }
 
-    public List<Integer> findHashTagIdAll(List<HashTagDto.Request> dtos){
-        return dtos.stream().map(hashTag -> hashTagMap.get(hashTag.getTagName()))
-                .collect(Collectors.toList());
-    }
-
-    public Map<String, Integer> getHashTagMap() {
-        return hashTagMap;
-    }
+//    public List<Integer> findHashTagIdAll(List<HashTagDto.Request> dtos){
+//        return dtos.stream().map(hashTag -> hashTagMap.get(hashTag.getTagName()))
+//                .collect(Collectors.toList());
+//    }
+//
+//    public Map<String, Integer> getHashTagMap() {
+//        return hashTagMap;
+//    }
 
     public HashTagDto.Response toDto(HashTag hashTag) {
         return HashTagDto.Response.builder()

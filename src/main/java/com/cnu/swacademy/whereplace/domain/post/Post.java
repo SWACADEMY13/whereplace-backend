@@ -50,7 +50,7 @@ public class Post {
 
     // 추가
     @Builder.Default
-    @OneToMany(mappedBy = "postTag", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostTag> postTags = new ArrayList<>();
 
     @Builder.Default
@@ -59,7 +59,6 @@ public class Post {
 
     public void setPostedUser(User postedUser) {
         this.postedUser = postedUser;
-//        this.postedUser.getPosts().add(this);
     }
 
     public void setPostedDate(LocalDateTime postedDate){

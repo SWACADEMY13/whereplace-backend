@@ -25,7 +25,7 @@ public class CommentController {
      *************************************************/
     @PostMapping("/write")
     public String create(CommentDto.Request givenRequestCommentDto){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
-        return "redirect:/posts/" + commentService.create(givenRequestCommentDto);
+        return "redirect:/posts/" + commentService.create(givenRequestCommentDto).getCommentedPost().getPostId();
     }
 
     /******************** read ***********************
@@ -45,8 +45,8 @@ public class CommentController {
      ***************************************************/
 
     @PostMapping("/{commentId}/edit")
-    public String modify(CommentDto.Request givenRequestCommentDTO){
-        return "redirect:/posts/" + commentService.update(givenRequestCommentDTO);
+    public String update(CommentDto.Request givenRequestCommentDTO){
+        return "redirect:/posts/" + commentService.update(givenRequestCommentDTO).getCommentedPost().getPostId();
     }
 
 
@@ -55,7 +55,7 @@ public class CommentController {
      2. 삭제결과 url 로 이동(게시글 목록 등)
      ***************************************************/
 
-    @PostMapping("/{commentId}/edit/delete/")
+    @DeleteMapping("/{commentId}/edit/delete/")
     public String delete(@PathVariable int postId, @PathVariable int commentId){
         commentService.delete(commentId);
         return "redirect:/posts/" + postId;
