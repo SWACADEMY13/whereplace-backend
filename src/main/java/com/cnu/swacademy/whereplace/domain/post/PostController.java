@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Controller
 @Slf4j
 @RequestMapping("/posts")
-public class PostController {
+public class PostController { // test 완료
 
     private final PostService postService;
 
@@ -37,6 +37,7 @@ public class PostController {
     public String create(@RequestBody PostDto.Request postDto){
         Post post = postService.create(postDto);
 
+//        postService 의 create 랑 postTagService 의 create 에서 같은 동작을 수행하는 코드가 있어서 주석 처리 했습니다~!
 //        List<HashTagDto.Request> hashTags = postDto.getHashTags();
 //        if(hashTags!=null)
 //            postService.createPostTagRelation(post,hashTags);
@@ -78,6 +79,6 @@ public class PostController {
     public String delete(@PathVariable int postId) {
         postService.delete(postId);
 
-        return "일단 done"; // 프로필로 돌아가기, 나중에 URL 수정
+        return ""; // 프로필로 돌아가기, 나중에 URL 수정
     }
 }

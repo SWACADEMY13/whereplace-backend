@@ -113,6 +113,8 @@ public class PostService {
     @Transactional
     public void delete(int postId) {
         Post post = this.find(postId);
+        post.setPostedUser(null);
+        post.setRegion(null);
         try {
 //            commentService.delete(post);
             imageService.delete(post);
