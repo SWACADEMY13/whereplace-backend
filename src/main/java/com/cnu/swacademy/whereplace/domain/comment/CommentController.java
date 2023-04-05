@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/post/{postId}/comments") // url 이 이렇게 되는 게 더 자연스러운 것 같아서 일단 수정해봤습니다!
+@RequestMapping("/posts/{postId}/comments") // url 이 이렇게 되는 게 더 자연스러운 것 같아서 일단 수정해봤습니다!
 public class CommentController {
 
     private final CommentService commentService;
@@ -24,7 +24,7 @@ public class CommentController {
      2. 프론트 렌터링 시, JSON 제공
      *************************************************/
     @PostMapping("/write")
-    public String create(CommentDto.Request givenRequestCommentDto){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
+    public String create(@RequestBody CommentDto.Request givenRequestCommentDto){ // 생성단계 (작성 단계 -> 작성 완료 버튼을 누를 때)
         return "redirect:/posts/" + commentService.create(givenRequestCommentDto).getCommentedPost().getPostId();
     }
 
@@ -45,7 +45,7 @@ public class CommentController {
      ***************************************************/
 
     @PostMapping("/{commentId}/edit")
-    public String update(CommentDto.Request givenRequestCommentDTO){
+    public String update(@RequestBody CommentDto.Request givenRequestCommentDTO){
         return "redirect:/posts/" + commentService.update(givenRequestCommentDTO).getCommentedPost().getPostId();
     }
 
