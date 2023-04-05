@@ -2,7 +2,6 @@ package com.cnu.swacademy.whereplace.domain.post;
 
 import com.cnu.swacademy.whereplace.domain.comment.CommentService;
 import com.cnu.swacademy.whereplace.domain.hashtag.HashTagDto;
-import com.cnu.swacademy.whereplace.domain.hashtag.HashTagService;
 import com.cnu.swacademy.whereplace.domain.image.Image;
 import com.cnu.swacademy.whereplace.domain.image.ImageService;
 import com.cnu.swacademy.whereplace.domain.post_tag.PostTagService;
@@ -11,6 +10,7 @@ import com.cnu.swacademy.whereplace.domain.region.RegionService;
 import com.cnu.swacademy.whereplace.domain.user.User;
 import com.cnu.swacademy.whereplace.domain.user.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,20 +32,18 @@ public class PostService {
     private final PostTagService postTagService;
     private final ImageService imageService;
     private final PostRepository postRepository;
-    private final HashTagService hashTagService;
 
 
-    public PostService(UserService userService, RegionService regionService, PostTagService postTagService, ImageService imageService, PostRepository postRepository, HashTagService hashTagService) {
+    public PostService(UserService userService, RegionService regionService, PostTagService postTagService, ImageService imageService, PostRepository postRepository) {
 //        this.commentService = commentService;
         this.userService = userService;
         this.regionService = regionService;
         this.postTagService = postTagService;
         this.imageService = imageService;
         this.postRepository = postRepository;
-        this.hashTagService = hashTagService;
     }
 
-    public Post find(int givenPostId){
+    public Post findById(int givenPostId){
         Optional<Post> foundPost = postRepository.findById(givenPostId);
         return foundPost.orElse(null);
     }
@@ -60,8 +58,8 @@ public class PostService {
         log.warn("DTO INFO : {}",dto.toString());
         Post post = dto.toEntity();
 
-        User user = userService.find(dto.getUsername());
-        Region region = regionService.find(dto.getRegionId());
+        User user = userService.findByUserName(dto.getNickname());
+        Region region = regionService.findById(dto.getRegionId());
 
         post.setPostedUser(user);
         post.setRegion(region);
@@ -83,28 +81,26 @@ public class PostService {
 
     @Transactional
     public Post update(PostDto.Request dto) {
-        Post post = find(dto.getPostId());
+        Post post = findById(dto.getPostId());
 
         if (dto.getContent().isPresent()) {
             post.setContent(dto.getContent().get());
         }
 
         if (!dto.getHashTags().isEmpty()) {
-            /// PostTagService 의 update 메소드로 빼도 될 것 같음. ///
-            postTagService.delete(post);                      ///
-            postTagService.create(post, dto.getHashTags());   ///
-            /////////////////////////////////////////////////////
+            // PostTagService 의 update 메소드로 빼도 될 것 같음.
+            postTagService.deleteAllByPostId(post.getPostId());
+            postTagService.create(post, dto.getHashTags());
         }
 
 
-        /// ImageService 의 update 메소드로 빼도 될 것 같음. /////////////////////////////////////////////
-        imageService.delete(post);
+        // ImageService 의 update 메소드로 빼도 될 것 같음.
+        imageService.deleteAllByPostId(post.getPostId());
         List<Image> images = dto.getImages().stream()
                 .map(imageDto -> imageService.create(post, imageDto)).collect(Collectors.toList());
         post.setImages(images);
-        //////////////////////////////////////////////////////////////////////////////////////////////
 
-        post.setRegion(regionService.find(dto.getRegionId()));
+        post.setRegion(regionService.findById(dto.getRegionId()));
         post.setPostLike(dto.getPostLike());
 
         return postRepository.save(post);
@@ -112,13 +108,13 @@ public class PostService {
 
     @Transactional
     public void delete(int postId) {
-        Post post = this.find(postId);
+        Post post = this.findById(postId);
         post.setPostedUser(null);
         post.setRegion(null);
         try {
-//            commentService.delete(post);
-            imageService.delete(post);
-            postTagService.delete(post);
+//            commentService.deleteAllByPostId(postId);
+            imageService.deleteAllByPostId(postId);
+            postTagService.deleteAllByPostId(postId);
             postRepository.delete(post);
         } catch (OptimisticLockingFailureException e) {
             Assert.isTrue(true, " in Post Service : delete");
@@ -135,7 +131,7 @@ public class PostService {
 //    }
 
     public PostDto.Response toDto(Post post) {
-        Post pPost = find(post.getPostId());
+        Post pPost = findById(post.getPostId());
 
         PostDto.Response postDto = PostDto.Response.builder()
                 .postId(pPost.getPostId())
@@ -144,10 +140,10 @@ public class PostService {
                 .postedDate(pPost.getPostedDate())
                 .postLike(pPost.getPostLike())
                 .region(regionService.toDto(pPost.getRegion()))
-                .tags(pPost.getPostTags().stream().map(postTag -> hashTagService.toDto(postTag.getHashTag())).collect(Collectors.toList()))
+//                .comments(commentService.findAllByPostId(post.getPostId()).stream().map(commentService::toDto).collect(Collectors.toList()))
+                .tags(postTagService.toDtos(pPost.getPostTags()))
                 .images(pPost.getImages().stream().map(imageService::toDto).collect(Collectors.toList()))
                 .build();
-        //postDto.setComments(commentService.findAll(post.getPostId()).stream().map(CommentService::toDto).collect(Collectors.toList()));
         return postDto;
     }
 }

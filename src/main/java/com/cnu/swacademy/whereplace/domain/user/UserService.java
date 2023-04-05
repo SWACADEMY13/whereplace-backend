@@ -27,9 +27,9 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User find(String givenUsername){
-        Optional<User> foundUser = userRepository.findByUsername(givenUsername);
-        log.warn("id : {}",foundUser.get().getUsername());
+    public User findByUserName(String givenUserName){
+        Optional<User> foundUser = userRepository.findByNickname(givenUserName);
+        log.warn("id : {}",foundUser.get().getNickname());
         return foundUser.orElse(null);
     }
 
@@ -42,7 +42,7 @@ public class UserService {
 
         return UserDto.Response.builder()
                 .userId(user.getUserId())
-                .username(user.getUsername())
+                .nickname(user.getNickname())
                 .name(user.getName())
                 .phone(user.getPhone())
                 .email(user.getEmail())

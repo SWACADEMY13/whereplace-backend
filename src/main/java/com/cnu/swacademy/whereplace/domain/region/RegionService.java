@@ -11,12 +11,12 @@ public class RegionService {
         this.regionRepository = regionRepository;
     }
 
-    public Region find(int regionId) {
+    public Region findById(int regionId) {
         return regionRepository.findById(regionId).orElse(null);
     }
 
     public RegionDto.Response toDto(Region region) {
-        Region pRegion = find(region.getRegionId());
+        Region pRegion = findById(region.getRegionId());
 
         return RegionDto.Response.builder()
                 .regionId(pRegion.getRegionId())

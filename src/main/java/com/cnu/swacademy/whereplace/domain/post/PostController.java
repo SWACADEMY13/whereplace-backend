@@ -52,7 +52,7 @@ public class PostController { // test 완료
     @ResponseBody
     @GetMapping("/{postId}")
     public PostDto.Response read(@PathVariable int postId) { // 게시판 ID로 DB 조회 후 query 결과 가져옴
-        Post post = postService.find(postId);
+        Post post = postService.findById(postId);
 
         return postService.toDto(post);
     }

@@ -18,7 +18,7 @@ public class CommentDto {
     public static class Request{
         private Integer commentId; // AUTO_INCREMENT
         private Integer postId;
-        private String username;
+        private String nickname;
         private String content;
         private LocalDateTime postedDate;
         @Builder.Default

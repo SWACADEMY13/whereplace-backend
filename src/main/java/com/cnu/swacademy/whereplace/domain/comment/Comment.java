@@ -63,6 +63,5 @@ public class Comment {
 
     private void setCommentedUser(User commentedUser) {
         this.commentedUser = commentedUser;
-//        this.commentedUser.getComments().add(this);
     }
 }

@@ -30,8 +30,8 @@ public class ImageService {
     }
 
     @Transactional
-    public void delete(Post post) {
-        imageRepository.deleteAllByPost_PostId(post.getPostId());
+    public void deleteAllByPostId(int postId) {
+        imageRepository.deleteAllByPost_PostId(postId);
     }
 
     public ImageDto.Response toDto(Image image) {

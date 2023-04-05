@@ -26,7 +26,7 @@ public class PostDto {
     @NoArgsConstructor
     public static class Request{
         private Integer postId;
-        private String username;
+        private String nickname;
         @Builder.Default
         private Optional<String> content = Optional.empty(); // nullable
         @Builder.Default

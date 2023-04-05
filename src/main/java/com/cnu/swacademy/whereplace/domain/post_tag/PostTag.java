@@ -19,14 +19,14 @@ public class PostTag {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
-    private Post postTag;
+    private Post post;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "tag_id", referencedColumnName = "tag_id")
     private HashTag hashTag;
 
     public PostTag(Post post, HashTag hashTag) {
-        this.postTag = post;
+        this.post = post;
         this.hashTag = hashTag;
     }
 
