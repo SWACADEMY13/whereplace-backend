@@ -65,6 +65,8 @@ public class CommentService {
     @Transactional
     public void delete(int commentId){
         Comment comment = findById(commentId);
+        comment.setCommentedPost(null);
+        comment.setCommentedUser(null);
         try {
             commentRepository.delete(comment);
         } catch (OptimisticLockingFailureException e) {

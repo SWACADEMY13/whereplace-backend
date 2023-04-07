@@ -57,11 +57,11 @@ public class Comment {
         setCommentedPost(commentedPost);
     }
 
-    private void setCommentedPost(Post commentedPost) {
+    public void setCommentedPost(Post commentedPost) {
         this.commentedPost = commentedPost;
     }
 
-    private void setCommentedUser(User commentedUser) {
+    public void setCommentedUser(User commentedUser) {
         this.commentedUser = commentedUser;
     }
 }
