@@ -17,7 +17,7 @@ public class CommentDto {
     @NoArgsConstructor
     public static class Request{
         private Integer commentId; // AUTO_INCREMENT
-        private Integer postId;
+        private Integer postId; // Dto로 비ㅏ꿔야 하나...
         private String nickname;
         private String content;
         private LocalDateTime postedDate;

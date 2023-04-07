@@ -10,7 +10,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/posts/{postId}/comments") // url 이 이렇게 되는 게 더 자연스러운 것 같아서 일단 수정해봤습니다!
-public class CommentController {
+public class CommentController { // test 완료
 
     private final CommentService commentService;
 
@@ -45,8 +45,9 @@ public class CommentController {
      ***************************************************/
 
     @PostMapping("/{commentId}/edit")
-    public String update(@RequestBody CommentDto.Request givenRequestCommentDTO){
-        return "redirect:/posts/" + commentService.update(givenRequestCommentDTO).getCommentedPost().getPostId();
+    public String update(@PathVariable int postId, @RequestBody CommentDto.Request givenRequestCommentDTO){
+        commentService.update(givenRequestCommentDTO);
+        return "redirect:/posts/" + postId;
     }
 
 
