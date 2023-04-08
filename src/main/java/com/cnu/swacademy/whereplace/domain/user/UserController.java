@@ -31,7 +31,7 @@ public class UserController {
 
         if (user.isPresent()) { // 로그인 성공 시
             Cookie cookie=new Cookie("user_session_id",session.getId());
-            cookie.setAttribute("username",user.get().getNickname());
+            cookie.setAttribute("nickname",user.get().getNickname());
             cookie.setMaxAge(1000*60*10); // 1000ms * 60 * 10 = 10m
             session.setMaxInactiveInterval(60*10); // 60s * 10 =10m
             response.addCookie(cookie);
@@ -49,7 +49,7 @@ public class UserController {
     @PostMapping("/logout-process")
     public String logout(HttpServletResponse response,Model model,HttpSession session) {
         Cookie cookie=new Cookie("user_session_id",null);
-        cookie.setAttribute("username",null);
+        cookie.setAttribute("nickname",null);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
 
